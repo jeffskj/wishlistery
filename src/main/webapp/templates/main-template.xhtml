@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui" 
+	xml:lang="EN" lang="EN"
+	dir="ltr">
+
+<h:head>
+	<title>#{empty pageTitle ? '{#pageTitle}' : pageTitle}</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	
+	<style>
+	   body {
+              margin: 0;
+              padding: 0;
+			  font-family: helvetica;
+	   }
+		.main-header {
+		      width: 100%;
+		      height: 60px;
+		      font-size: 35px;
+		      margin: 0;
+		      padding: 0 40px 0 40px;
+		}
+		
+		.header-border {
+              width: 100%;
+              height: 5px;
+              margin: 0;
+              padding: 0
+        }
+		
+		a {
+		  color: #4F4F4F;
+		  text-decoration: none;
+		}
+		
+		a:hover {
+          text-decoration: underline;
+        }
+        
+        .cta-button {
+            font-size: 25px;width:250px
+        }
+        
+        .no-underline {
+            text-decoration: none;
+        }
+        
+        .no-underline:hover {
+            text-decoration: none;
+        }
+	</style>
+    <ui:insert name="head"></ui:insert>
+</h:head>
+
+<h:body id="top">
+    <div class="ui-widget-header main-header" style="display: block;">
+        <h:link outcome="home" value="wishlist" styleClass="no-underline"/>
+        <div style="position: relative; float: right; right: 70px; top: 35px;">
+ 	          <h:link style="font-size: 16px;" value="Create Wishlist" onclick="createWishlistDlg.show()" />  
+        </div>
+    </div>
+    <div class="ui-state-default header-border" style="display: block;"></div>
+	
+  	<ui:insert name="main">{main}</ui:insert>
+  	
+  	<p:dialog widgetVar="createWishlistDlg" modal="true">
+        <h:form id="createWishlistForm">
+                <p:message id="wishlistNameMsg" for="wishlistName"/>
+                <h:panelGrid columns="3" cellpadding="10">
+                    <h:outputLabel value="Name:" for="wishlistName" />
+                    <p:inputText value="#{wishlistBean.entity.name}" id="wishlistName" size="40">
+                        <p:ajax event="keyup" update="wishlistNameMsg" />
+                        <p:ajax event="blur" update="wishlistNameMsg" />
+                    </p:inputText>
+	               <p:commandButton value="Create" action="#{wishlistBean.save()}" ajax="false" 
+	                    onclick="createWishlistDlg.close()"/>
+                </h:panelGrid>
+               
+        </h:form>
+    </p:dialog>
+</h:body>
+</html>

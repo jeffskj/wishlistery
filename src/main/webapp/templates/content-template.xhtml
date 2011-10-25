@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.prime.com.tr/ui" 
+	xml:lang="EN" lang="EN"
+	dir="ltr">
+<ui:composition template="main-template.xhtml">
+	<ui:define name="head">
+	   <style> 
+	       .content {
+	          width: 800px;
+	          padding-top: 15px;
+	          margin: auto;
+	        }
+	   </style>
+	</ui:define>
+    <ui:define name="main">
+		<div class="wrapper">
+		    <div class="content">
+		    	<ui:insert name="content">{content}</ui:insert>
+			</div>
+		</div>
+    </ui:define>
+</ui:composition>
+</html>

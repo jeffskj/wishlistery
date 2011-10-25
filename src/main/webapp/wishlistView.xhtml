@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<f:metadata>
+    <f:viewParam name="viewAsOtherUser" value="#{wishlistViewBean.viewAsOtherUser}"/>
+</f:metadata>
+<ui:composition template="/templates/content-template.xhtml">
+	<ui:param name="pageTitle" value="Wishlist View: #{wishlistViewBean.entity.name}" />
+
+	<ui:define name="content">
+		<h:form id="form" rendered="#{!wishlistViewBean.viewAsOtherUser}">
+		    <h:messages globalOnly="true" />
+            <p:inplace editor="true" style="font-size:22px;font-weight:bold;">
+                <p:ajax event="save" listener="#{wishlistViewBean.save()}"/>
+	            <p:inputText value="#{wishlistViewBean.entity.name}" id="name" size="40">
+	                 <p:ajax event="keyup" update="nameMsg" />
+	                 <p:ajax event="blur" update="nameMsg" />
+	            </p:inputText>
+            </p:inplace>
+            <p:message id="nameMsg" for="name"/>
+             View of: 
+             <h:link outcome="pretty:wishlist" value="#{wishlistViewBean.entity.wishlist.name}" style="font-weight:bold">
+                <f:param name="id" value="#{wishlistViewBean.entity.wishlist.id}" />
+            </h:link>
+           <div style="position: relative; float:right; padding-bottom: 15px">
+                <h:link outcome="/wishlistView.jsf" value="View as other user" rendered="#{!wishlistViewBean.viewAsOtherUser}">
+	                <f:param name="viewAsOtherUser" value="true" />
+	                <f:param name="id" value="#{wishlistViewBean.entity.id}" />
+	            </h:link>   
+	             <h:link outcome="/wishlistView.jsf" value="Edit View" rendered="#{wishlistViewBean.viewAsOtherUser}">
+                    <f:param name="id" value="#{wishlistViewBean.entity.id}" />
+                </h:link> 
+           </div>
+		</h:form>
+        
+        <ui:fragment rendered="#{wishlistViewBean.viewAsOtherUser}">
+	        <h2>#{wishlistViewBean.entity.wishlist.name}</h2> 
+        </ui:fragment>
+         
+        <h:form id="itemsForm">
+        
+	        <ui:repeat var="cat" value="#{wishlistViewBean.entity.wishlist.categories}">
+	           <ui:fragment rendered="#{!cat.default and 
+	               (!wishlistViewBean.viewAsOtherUser || !wishlistViewBean.entity.isCategoryEmpty(cat))}">
+	               <h4 style="font-size:18px;font-weight:bold;">#{cat.name}</h4>
+               </ui:fragment>    
+               
+                <ui:repeat var="it" value="#{cat.items}">
+                    <ui:fragment rendered="#{!wishlistViewBean.viewAsOtherUser}">
+	                    <span style="position:relative;float:right">
+	                        <p:commandLink value="Add To View" action="#{wishlistViewBean.addItem(it)}" update="itemsForm" 
+	                            rendered="#{!wishlistViewBean.entity.items.contains(it)}"/>
+	                        <p:commandLink value="Remove From View" action="#{wishlistViewBean.removeItem(it)}" update="itemsForm" 
+	                            rendered="#{wishlistViewBean.entity.items.contains(it)}"/>
+	                    </span>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{wishlistViewBean.entity.items.contains(it) || !wishlistViewBean.viewAsOtherUser}">
+	                    <ul style="list-style: none;padding-bottom:15px;color:#{wishlistViewBean.entity.items.contains(it) ? '#000000' : '#CCCCCC'}">
+	                        <li>
+	                            <span style="font-weight:bold;">#{it.title}</span>
+	                        </li>
+	                        <li>
+	                            <h:outputText value="#{it.description}" style="font-size:14px;" rendered="#{it.link != null}"/>
+	                        </li>
+	                        <li>
+	                         <h:outputLink value="#{it.link}" rendered="#{it.link != null}" style="color:#{wishlistViewBean.entity.items.contains(it) ? '#2C4359' : '#CCCCCC'}">
+	                            #{it.trimmedLink}
+	                         </h:outputLink>
+	                        </li>
+	                    </ul>
+                    </ui:fragment>     
+               </ui:repeat>       
+	        </ui:repeat>
+        </h:form>
+	</ui:define>
+
+</ui:composition>
+</html>
+

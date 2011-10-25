@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:m="http://metawidget.org/faces"
+    xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<f:metadata>
+</f:metadata>
+
+<ui:composition template="/resources/scaffold/forge-template.xhtml">
+
+	<ui:param name="pageTitle" value="Create User" />
+
+	<ui:define name="header">
+	   <h:outputText value="Create Account" rendered="#{!userBean.persisted}" />
+	   <h:outputText value="Edit Account" rendered="#{userBean.persisted}" />
+	</ui:define>
+
+	<ui:define name="subheader">
+		 
+	</ui:define>
+
+	<ui:define name="footer">
+	</ui:define>
+
+	<ui:define name="main">
+		<h:form id="form">
+		    <h:messages globalOnly="true" />
+            
+            <h:panelGrid columns="3">
+	            <h:outputLabel value="Name:" for="name" />
+			    <p:inputText value="${userBean.user.name}" id="name">
+			         <p:ajax event="keyup" update="nameMsg" />
+			         <p:ajax event="blur" update="nameMsg" />
+			    </p:inputText>
+			    <p:message id="nameMsg" for="name"/>
+			    
+			    <h:outputLabel value="Email:" for="email" />
+			    <p:inputText value="${userBean.user.email}" id="email">
+			         <p:ajax event="keyup" update="emailMsg" />
+                     <p:ajax event="blur" update="emailMsg" />
+                </p:inputText>
+			    <p:message id="emailMsg" for="email"/>
+			    
+			    <h:outputLabel value="Password:" for="password" />
+			    <p:inputText value="${userBean.user.password}" id="password">
+			         <p:ajax event="keyup" update="passwordMsg passwordConfirmMsg" />
+                     <p:ajax event="blur" update="passwordMsg passwordConfirmMsg" />
+                </p:inputText>
+			    <p:message id="passwordMsg" for="password"/>
+			    
+			    <h:outputLabel value="Password:" for="passwordConfirm" />
+			    <p:inputText value="${userBean.passwordConfirm}" id="passwordConfirm">
+			         <p:ajax event="keyup" update="passwordMsg passwordConfirmMsg" />
+                     <p:ajax event="blur" update="passwordMsg passwordConfirmMsg" />
+			    </p:inputText>
+	            <p:message id="passwordConfirmMsg" for="passwordConfirm"/>
+            </h:panelGrid>
+		    
+		    <br/>
+		    <h:commandLink value="Save" action="#{userBean.save()}" />
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>
+
