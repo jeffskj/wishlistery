@@ -10,24 +10,25 @@
       <rewrite match="^/old-url/(\w+)/$" substitute="/new_url/$1/" redirect="301" />
    
 
+   -->
    <url-mapping id="home"> 
        <pattern value="/" /> 
        <view-id value="/home.jsf" />
    </url-mapping>
-   -->
     
-   <url-mapping id="wishlist"> 
-       <pattern value="/wishlist" /> 
-       <view-id value="/wishlist.jsf" />
+   <url-mapping id="profile"> 
+       <pattern value="/profile" /> 
+       <view-id value="/profile.jsf" />
+       <action>#{userSession.checkLoggedIn()}</action>
    </url-mapping>
    
-   <url-mapping id="specific-wishlist"> 
+   <url-mapping id="wishlist"> 
        <pattern value="/wishlist/#{id : wishlistBean.id}" /> 
        <view-id value="/wishlist.jsf" />
        <action>#{wishlistBean.load}</action>
    </url-mapping>
    
-   <url-mapping id="specific-wishlist-view"> 
+   <url-mapping id="wishlistView"> 
        <pattern value="/view/#{id : wishlistViewBean.id}" /> 
        <view-id value="/wishlistView.jsf" />
        <action>#{wishlistViewBean.load}</action>

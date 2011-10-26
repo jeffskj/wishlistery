@@ -1,6 +1,7 @@
 package com.jeffskj.wishlist.view;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -14,6 +15,7 @@ import com.jeffskj.wishlist.domain.Wishlist;
 import com.jeffskj.wishlist.domain.WishlistCategory;
 import com.jeffskj.wishlist.domain.WishlistItem;
 import com.jeffskj.wishlist.domain.WishlistView;
+import com.jeffskj.wishlist.security.UserSession;
 
 
 @Named
@@ -26,26 +28,69 @@ public class WishlistBean extends BaseBean<Wishlist> {
     private WishlistCategory category = new WishlistCategory();
     private WishlistView view = new WishlistView();
     
+    private String newWishlistName;
+    
     @Inject
     Messages messages;
+    
+    @Inject
+    UserSession session;
     
     @Override
     protected Wishlist newEntityInstance() {
         Wishlist wishlist = new Wishlist();
+        if (session != null && session.isLoggedIn()) {
+            wishlist.setUserId(session.getUser().getId());
+        }
         WishlistCategory cat = new WishlistCategory(WishlistCategory.DEFAULT);
         wishlist.setCategories(Lists.newArrayList(cat));
         cat.setWishlist(wishlist);
         return wishlist;
     }
 
+    public boolean isOriginalUser() {
+        if (session != null && session.isLoggedIn()) {
+            return entity.getUserId() != null && entity.getUserId().equals(session.getUser().getId());
+        }
+        return false;
+    }
+    
+    @Override
+    public String save() {
+        if (newWishlistName != null) {
+            Wishlist current = entity;
+            long currentId = getId();
+            setId(0);
+            entity = newEntityInstance();
+            entity.setName(newWishlistName);
+            String dest = super.save();
+            setId(currentId);
+            entity = current;
+            
+            return dest;
+        }
+        
+        if (!isOriginalUser()) { return "pretty:home"; }
+        return super.save();
+    }
+    
+    public List<Wishlist> getUserWishlists() {
+        return em.createQuery("from Wishlist where userId = :id", Wishlist.class)
+                .setParameter("id", session.getUser().getId()).getResultList();
+    }
+    
     public String createView() throws IOException {
+        if (!isOriginalUser()) { return "pretty:home"; }
+        
         view.setWishlist(entity);
         em.persist(view);
         entity.getViews().add(view);
-        return "wishlistView?faces-redirect=true&id=" + view.getId();
+        return "pretty:wishlistView?faces-redirect=true&id=" + view.getId();
     }
     
     public void addItem() {
+        if (!isOriginalUser()) { return; }
+        
         for (WishlistCategory cat : entity.getCategories()) {
             if (cat.equals(item.getCategory())) {
                 cat.getItems().add(item);
@@ -57,6 +102,8 @@ public class WishlistBean extends BaseBean<Wishlist> {
     }
 
     public void removeItem() {
+        if (!isOriginalUser()) { return; }
+        
         for (WishlistCategory cat : entity.getCategories()) {
             if (cat.equals(item.getCategory())) {
                 cat.getItems().remove(item);
@@ -67,6 +114,8 @@ public class WishlistBean extends BaseBean<Wishlist> {
     }
     
     public void updateItem() {
+        if (!isOriginalUser()) { return; }
+        
         for (WishlistCategory cat : entity.getCategories()) {
             if (cat.equals(item.getCategory())) {
                 for (WishlistItem it : cat.getItems()) {
@@ -84,6 +133,8 @@ public class WishlistBean extends BaseBean<Wishlist> {
     }
     
     public void addCategory() {
+        if (!isOriginalUser()) { return; }
+        
         entity.getCategories().add(category);
         category.setWishlist(entity);
         save();
@@ -91,6 +142,8 @@ public class WishlistBean extends BaseBean<Wishlist> {
     }
     
     public void removeCategory() {
+        if (!isOriginalUser()) { return; }
+    
         if (!category.getItems().isEmpty()) {
             messages.error("cannot remove non-empty category");
             return;
@@ -101,6 +154,8 @@ public class WishlistBean extends BaseBean<Wishlist> {
     }
     
     public void updateCategory() {
+        if (!isOriginalUser()) { return; }
+        
         for (WishlistCategory cat : entity.getCategories()) {
             if (cat.equals(category)) {
                 cat.setName(category.getName());
@@ -137,5 +192,13 @@ public class WishlistBean extends BaseBean<Wishlist> {
 
     public void setView(WishlistView view) {
         this.view = view;
+    }
+
+    public String getNewWishlistName() {
+        return newWishlistName;
+    }
+
+    public void setNewWishlistName(String newWishlistName) {
+        this.newWishlistName = newWishlistName;
     }
 }

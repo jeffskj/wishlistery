@@ -9,13 +9,14 @@
 
 <ui:composition template="/templates/content-template.xhtml">
 
-	<ui:param name="pageTitle" value="#{wishlistBean.persisted ? 'Edit' : 'Create'} Wishlist" />
+	<ui:param name="pageTitle" value="Wishlist: #{wishlistBean.entity.name}" />
 
 	<ui:define name="content">
 		<h:form id="form">
 		    <h:messages globalOnly="true" />
             
-           <p:inplace editor="true" saveListener="#{wishlistBean.save()}" style="font-size:25px;font-weight:bold;">
+           <p:inplace editor="true" saveListener="#{wishlistBean.save()}" style="font-size:25px;font-weight:bold;"
+                rendered="#{wishlistBean.originalUser}">
 	            <p:inputText value="#{wishlistBean.entity.name}" id="name" size="40">
 	                 <p:ajax event="keyup" update="nameMsg" />
 	                 <p:ajax event="blur" update="nameMsg" />
@@ -23,26 +24,34 @@
            </p:inplace>
            <p:message id="nameMsg" for="name"/>
 		</h:form>
+		
+        <ui:fragment rendered="#{!wishlistBean.originalUser}">
+            <h2>#{wishlistBean.entity.name}</h2> 
+        </ui:fragment>
          
-         <h:outputText value="Views:" rendered="#{not empty wishlistBean.entity.views}"/> 
-         <ui:repeat var="v" value="#{wishlistBean.entity.views}">
-            <h:link outcome="/wishlistView.jsf" value="#{v.name}">
-                <f:param name="id" value="#{v.id}" />
-            </h:link>
-            &nbsp;
-         </ui:repeat>
-         
-        <h:form id="itemsForm">
-	       <div style="text-align:right; padding-bottom: 15px">
-	           <p:commandLink style="font-size: 12px;" value="Create View" onclick="createViewDlg.show()" />
-                &nbsp;
-	            <p:commandLink style="font-size: 12px;" value="Add Item" onclick="addEditItemDlg.show()" />
+        <ui:fragment rendered="#{wishlistBean.originalUser}">
+	         <h:outputText value="Views:" rendered="#{not empty wishlistBean.entity.views}"/> 
+	         <ui:repeat var="v" value="#{wishlistBean.entity.views}">
+	            <h:link outcome="/wishlistView.jsf" value="#{v.name}">
+	                <f:param name="id" value="#{v.id}" />
+	            </h:link>
 	            &nbsp;
-	            <p:commandLink style="font-size: 12px;" value="Add Category" onclick="addCatDlg.show()" />    
-	       </div>
+	         </ui:repeat>
+        </ui:fragment>
+        <h:form id="itemsForm">
+            <ui:fragment rendered="#{wishlistBean.originalUser}">
+		       <div style="text-align:right; padding-bottom: 15px">
+		           <p:commandLink style="font-size: 12px;" value="Create View" onclick="createViewDlg.show()" />
+	                &nbsp;
+		            <p:commandLink style="font-size: 12px;" value="Add Item" onclick="addEditItemDlg.show()" />
+		            &nbsp;
+		            <p:commandLink style="font-size: 12px;" value="Add Category" onclick="addCatDlg.show()" />    
+		       </div>
+            </ui:fragment>
 
 	        <ui:repeat var="cat" value="#{wishlistBean.entity.categories}">
-               <p:inplace editor="true" style="font-size:18px;font-weight:bold;" widgetVar="category#{cat.id}" rendered="#{!cat.default}">
+               <p:inplace editor="true" style="font-size:18px;font-weight:bold;" widgetVar="category#{cat.id}" 
+                    rendered="#{!cat.default and wishlistBean.originalUser}">
                     
 	               <p:inputText id="catName" value="#{cat.name}"/>
 	               <p:ajax event="save" listener="#{wishlistBean.updateCategory()}">
@@ -51,22 +60,28 @@
                </p:inplace>
                <p:message id="catNameMsg" for="catName"/>
                
+               <ui:fragment rendered="#{!wishlistBean.originalUser and !cat.default}">
+                    <h4>#{cat.name}</h4> 
+                </ui:fragment>
+               
                <p:commandLink value="Remove Category" action="#{wishlistBean.removeCategory()}" update="itemsForm" 
-                    rendered="#{empty cat.items and !cat.default}" style="position: relative; float: right">
+                    rendered="#{empty cat.items and !cat.default and wishlistBean.originalUser}" 
+                    style="position: relative; float: right">
 	               <f:setPropertyActionListener target="#{wishlistBean.category}" value="#{cat}"/>
 	           </p:commandLink>
                
                 <ui:repeat var="it" value="#{cat.items}">
-                    <span style="position:relative;float:right;top:20px;">
-                        <p:commandLink value="Edit" onclick="addEditItemDlg.show()" update="addEditForm">
-                             <f:setPropertyActionListener target="#{wishlistBean.item}" value="#{it}"/>
-                        </p:commandLink>
-                        &nbsp;
-                        <p:commandLink value="Remove" action="#{wishlistBean.removeItem()}" update="itemsForm">
-                            <f:setPropertyActionListener target="#{wishlistBean.item}" value="#{it}"/>
-                        </p:commandLink>
-                    </span>
-                         
+                    <ui:fragment rendered="#{wishlistBean.originalUser}">
+	                    <span style="position:relative;float:right;top:20px;">
+	                        <p:commandLink value="Edit" onclick="addEditItemDlg.show()" update="addEditForm">
+	                             <f:setPropertyActionListener target="#{wishlistBean.item}" value="#{it}"/>
+	                        </p:commandLink>
+	                        &nbsp;
+	                        <p:commandLink value="Remove" action="#{wishlistBean.removeItem()}" update="itemsForm">
+	                            <f:setPropertyActionListener target="#{wishlistBean.item}" value="#{it}"/>
+	                        </p:commandLink>
+	                    </span>
+                    </ui:fragment>
                     <ul style="list-style: none;padding-bottom:15px;">
                         <li>
                             <span style="font-weight:bold;">#{it.title}</span>

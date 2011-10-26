@@ -1,4 +1,4 @@
-insert into Wishlist (description, name, version, id) values ('Jeffs Xmas Wishlist', 'Christmas Wishlist', 1, 1);
+insert into Wishlist (description, name, version, id, userid) values ('Jeffs Xmas Wishlist', 'Christmas Wishlist', 1, 1, 'https://www.google.com/accounts/o8/id?id=AItOawmgSUw97r3kAh1BjnjbnlT0iOClt1MNv7I');
 insert into WishlistCategory (name, version, wishlist_id, id) values ('(none)', 1, 1, 1);
 
 insert into WishlistItem (category_id, description, link, title, version, id) values (1, '1 year subscription', 'http://outdoorphotographer.com', 'Outdoor Photographer Subscription', 1, 1);

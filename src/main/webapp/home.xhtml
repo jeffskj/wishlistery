@@ -12,7 +12,7 @@
     <ui:param name="pageTitle" value="Wishlist" />
     <ui:define name="main">
 	    <div style="height:500px;width:100%;background-color:#F5F5F5;padding-top: 100px">
-	       <h:panelGrid columns="2" style="width:800px;margin:auto">
+	       <h:panelGrid columns="2" style="width:800px;margin:auto;">
 	           <ui:fragment>
 			       <h4>Welcome to Wishlist!</h4> 
 			        
@@ -26,12 +26,24 @@
 			       </ul>
 	           </ui:fragment>
 	           <ui:fragment>
-	               <h:form>
-		                  <p:commandButton value="Login" styleClass="cta-button"/>
-		                  <br />
-		                  <br />
-		                  <p:commandButton value="Create Wishlist" styleClass="cta-button" onclick="createWishlistDlg.show()"/>
-	               </h:form>
+	               <b>Easy Sign up!</b>
+                   
+                   <ul>
+                     <li>Login your Google or Yahoo ID to automatically create an account!</li>
+                   </ul>
+                   
+		           <br />
+	               
+	               <div style="text-align: center;">
+		               <h:form>
+			                  <p:commandButton value="Login / Sign Up" styleClass="cta-button" onclick="loginDlg.show()"
+			                      rendered="#{!identity.loggedIn}"/>
+			                  <p:commandButton value="Create Wishlist" styleClass="cta-button" onclick="createWishlistDlg.show()"
+			                      rendered="#{identity.loggedIn}"/>
+		               </h:form>
+	               </div>
+	               <br />
+	               <br />
 	           </ui:fragment>
 	       </h:panelGrid>
 	       

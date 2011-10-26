@@ -65,28 +65,58 @@ and open the template in the editor.
 <h:body id="top">
     <div class="ui-widget-header main-header" style="display: block;">
         <h:link outcome="home" value="wishlist" styleClass="no-underline"/>
-        <div style="position: relative; float: right; right: 70px; top: 35px;">
- 	          <h:link style="font-size: 16px;" value="Create Wishlist" onclick="createWishlistDlg.show()" />  
+        <div style="position: relative; float: right; right: 70px; top: 15px;">
+              <h:form id="toolbar">
+	 	          <h:link style="font-size: 16px;" value="Create Wishlist" onclick="createWishlistDlg.show()" rendered="#{identity.loggedIn}" />
+	 	          &nbsp;  
+	 	          <h:link style="font-size: 16px;" value="Login / Sign Up" onclick="loginDlg.show()" rendered="#{!identity.loggedIn}"/>
+	 	          &nbsp;  
+	              <h:link style="font-size: 16px;" value="Profile" outcome="pretty:profile" rendered="#{identity.loggedIn}"/>
+	              &nbsp;  
+	              <p:commandLink style="font-size: 16px;" value="Log Out" rendered="#{identity.loggedIn}"
+	                    action="#{identity.logout()}" ajax="false"/>
+              </h:form>
         </div>
     </div>
     <div class="ui-state-default header-border" style="display: block;"></div>
 	
   	<ui:insert name="main">{main}</ui:insert>
   	
-  	<p:dialog widgetVar="createWishlistDlg" modal="true">
-        <h:form id="createWishlistForm">
-                <p:message id="wishlistNameMsg" for="wishlistName"/>
-                <h:panelGrid columns="3" cellpadding="10">
-                    <h:outputLabel value="Name:" for="wishlistName" />
-                    <p:inputText value="#{wishlistBean.entity.name}" id="wishlistName" size="40">
-                        <p:ajax event="keyup" update="wishlistNameMsg" />
-                        <p:ajax event="blur" update="wishlistNameMsg" />
-                    </p:inputText>
-	               <p:commandButton value="Create" action="#{wishlistBean.save()}" ajax="false" 
-	                    onclick="createWishlistDlg.close()"/>
-                </h:panelGrid>
-               
+  	<p:dialog widgetVar="createWishlistDlg" modal="true" width="700" position="center">
+        <h:form>
+            <p:message id="wishlistNameMsg" for="wishlistName"/>
+            <h:panelGrid columns="3" cellpadding="10">
+                <h:outputLabel value="Name:" for="wishlistName" />
+                <p:inputText value="#{wishlistBean.newWishlistName}" id="wishlistName" size="40">
+                    <p:ajax event="keyup" update="wishlistNameMsg" />
+                    <p:ajax event="blur" update="wishlistNameMsg" />
+                </p:inputText>
+                <p:commandButton value="Create" action="#{wishlistBean.save()}" ajax="false" 
+                    onclick="createWishlistDlg.close()"/>
+            </h:panelGrid>
         </h:form>
+    </p:dialog>
+    
+    <p:dialog widgetVar="loginDlg" modal="true">
+        Select one of the following OpenID Providers:
+        
+        <br />
+        
+        <h:form>
+	        <h:panelGrid columns="2" style="margin:auto" cellspacing="30">
+	           <p:commandLink action="#{identity.login()}" ajax="false">
+	               <h:graphicImage library="images" name="logo-google.png" /> Google
+	               <f:setPropertyActionListener target="#{openIdAuthenticator.providerCode}" value="google"/>
+	           </p:commandLink>
+               <p:commandLink action="#{identity.login()}" ajax="false">
+                   <h:graphicImage library="images" name="logo-yahoo.jpg" /> Yahoo
+                   <f:setPropertyActionListener target="#{openIdAuthenticator.providerCode}" value="yahoo"/>
+               </p:commandLink>
+	        </h:panelGrid>
+        </h:form>
+        
+        Your account will be created automatically upon successful sign-in 
+        
     </p:dialog>
 </h:body>
 </html>

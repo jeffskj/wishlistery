@@ -13,12 +13,17 @@ and open the template in the editor.
 	dir="ltr">
 <ui:composition template="main-template.xhtml">
 	<ui:define name="head">
-	   <style> 
+	   <style type="text/css"> 
 	       .content {
 	          width: 800px;
 	          padding-top: 15px;
 	          margin: auto;
 	        }
+	        .dataList .ui-datalist-data {
+                 border: none;
+                 background: transparent;
+                 background-image: none;
+             }
 	   </style>
 	</ui:define>
     <ui:define name="main">

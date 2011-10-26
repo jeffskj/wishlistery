@@ -29,6 +29,8 @@ public class Wishlist extends BaseEntity implements Serializable {
     private String name;
     private String description;
     
+    private String userId;
+    
     @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="wishlist", fetch=FetchType.EAGER)
     private List<WishlistCategory> categories;
     
@@ -86,5 +88,13 @@ public class Wishlist extends BaseEntity implements Serializable {
     
     public boolean isBlank() {
         return categories != null && categories.size() == 1 && categories.get(0).getItems().isEmpty();
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }
