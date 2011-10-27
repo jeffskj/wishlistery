@@ -85,7 +85,7 @@ public class WishlistBean extends BaseBean<Wishlist> {
         view.setWishlist(entity);
         em.persist(view);
         entity.getViews().add(view);
-        return "pretty:wishlistView?faces-redirect=true&id=" + view.getId();
+        return "/wishlistView.jsf?faces-redirect=true&id=" + view.getId();
     }
     
     public void addItem() {

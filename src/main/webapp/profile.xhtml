@@ -1,18 +1,16 @@
-<f:view xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:h="http://java.sun.com/jsf/html"
-        xmlns:c="http://java.sun.com/jsp/jstl/core"
-        xmlns:f="http://java.sun.com/jsf/core"
-        xmlns:p="http://primefaces.prime.com.tr/ui">
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui">
+
 
     <ui:composition template="/templates/content-template.xhtml">
         <ui:param name="pageTitle" value="User Profile" />
         <ui:define name="content">
-            Welcome #{currentUser.firstName} #{currentUser.lastName},
-            <br />
-            Your Email address: #{currentUser.email}
-            <br />
-            Your OpenId: #{currentUser.id}
+            <b>Welcome #{currentUser.firstName} #{currentUser.lastName}</b> (&nbsp;#{currentUser.email}&nbsp;),
             
             <h3>Your Wishlists</h3>
             <p:dataList var="w" value="#{wishlistBean.userWishlists}" itemType="none" styleClass="dataList">
@@ -21,8 +19,13 @@
                 </h:link>
             </p:dataList>
             
+             <div style="text-align: center;">
+                  <h:form>
+                         <p:commandButton value="Create Wishlist" styleClass="cta-button" onclick="createWishlistDlg.show()" />
+                  </h:form>
+              </div>
             
         </ui:define>
 
     </ui:composition>
-</f:view>
+</html>

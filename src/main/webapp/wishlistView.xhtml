@@ -14,6 +14,16 @@
 	<ui:param name="pageTitle" value="Wishlist View: #{wishlistViewBean.entity.name}" />
 
 	<ui:define name="content">
+        <div style="position: relative; float:right;">
+             <h:link outcome="/wishlistView.jsf" value="View as other user" rendered="#{!wishlistViewBean.viewAsOtherUser}">
+              <f:param name="viewAsOtherUser" value="true" />
+              <f:param name="id" value="#{wishlistViewBean.entity.id}" />
+          </h:link>
+           <h:link outcome="/wishlistView.jsf" value="Edit View" rendered="#{wishlistViewBean.viewAsOtherUser and wishlistViewBean.originalUser}">
+                 <f:param name="id" value="#{wishlistViewBean.entity.id}" />
+             </h:link> 
+        </div>
+        
 		<h:form id="form" rendered="#{!wishlistViewBean.viewAsOtherUser}">
 		    <h:messages globalOnly="true" />
             <p:inplace editor="true" style="font-size:22px;font-weight:bold;">
@@ -28,15 +38,6 @@
              <h:link outcome="pretty:wishlist" value="#{wishlistViewBean.entity.wishlist.name}" style="font-weight:bold">
                 <f:param name="id" value="#{wishlistViewBean.entity.wishlist.id}" />
             </h:link>
-           <div style="position: relative; float:right; padding-bottom: 15px">
-                <h:link outcome="/wishlistView.jsf" value="View as other user" rendered="#{!wishlistViewBean.viewAsOtherUser}">
-	                <f:param name="viewAsOtherUser" value="true" />
-	                <f:param name="id" value="#{wishlistViewBean.entity.id}" />
-	            </h:link>   
-	             <h:link outcome="/wishlistView.jsf" value="Edit View" rendered="#{wishlistViewBean.viewAsOtherUser}">
-                    <f:param name="id" value="#{wishlistViewBean.entity.id}" />
-                </h:link> 
-           </div>
 		</h:form>
         
         <ui:fragment rendered="#{wishlistViewBean.viewAsOtherUser}">

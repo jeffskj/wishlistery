@@ -9,6 +9,7 @@ import org.jboss.seam.transaction.Transactional;
 
 import com.jeffskj.wishlist.domain.WishlistItem;
 import com.jeffskj.wishlist.domain.WishlistView;
+import com.jeffskj.wishlist.security.UserSession;
 
 
 @Named
@@ -21,7 +22,7 @@ public class WishlistViewBean extends BaseBean<WishlistView> {
     Messages messages;
     
     @Inject
-    WishlistBean wishlistBean;
+    UserSession session;
     
     private boolean viewAsOtherUser;
     
@@ -41,9 +42,17 @@ public class WishlistViewBean extends BaseBean<WishlistView> {
     }
 
     public boolean isViewAsOtherUser() {
-        return viewAsOtherUser;
+        return viewAsOtherUser || !isOriginalUser();
     }
 
+    public boolean isOriginalUser() {
+        if (session != null && session.isLoggedIn()) {
+            return entity.getWishlist().getUserId() != null 
+                    && entity.getWishlist().getUserId().equals(session.getUser().getId());
+        }
+        return false;
+    }
+    
     public void setViewAsOtherUser(boolean viewAsOtherUser) {
         this.viewAsOtherUser = viewAsOtherUser;
     }
