@@ -1,4 +1,4 @@
-package com.jeffskj.wishlist.view;
+package com.wishlistery.view;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.component.UIComponent;
@@ -8,7 +8,7 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import com.jeffskj.wishlist.domain.BaseEntity;
+import com.wishlistery.domain.BaseEntity;
 
 @RequestScoped
 @FacesConverter("entity")

@@ -1,4 +1,4 @@
-package com.jeffskj.wishlist.security;
+package com.wishlistery.security;
 
 import java.io.IOException;
 

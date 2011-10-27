@@ -1,4 +1,4 @@
-package com.jeffskj.wishlist.domain;
+package com.wishlistery.domain;
 
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;

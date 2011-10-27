@@ -28,7 +28,7 @@ and open the template in the editor.
 		      height: 60px;
 		      font-size: 35px;
 		      margin: 0;
-		      padding: 0 40px 0 40px;
+		      padding: 0;
 		}
 		
 		.header-border {
@@ -48,7 +48,8 @@ and open the template in the editor.
         }
         
         .cta-button {
-            font-size: 25px;width:250px
+            font-size: 25px;
+            width:250px
         }
         
         .no-underline {
@@ -63,19 +64,21 @@ and open the template in the editor.
 </h:head>
 
 <h:body id="top">
-    <div class="ui-widget-header main-header" style="display: block;">
-        <h:link outcome="home" value="wishlist" styleClass="no-underline"/>
-        <div style="position: relative; float: right; right: 70px; top: 15px;">
-              <h:form id="toolbar">
-	 	          <h:link style="font-size: 16px;" value="Create Wishlist" onclick="createWishlistDlg.show()" rendered="#{identity.loggedIn}" />
-	 	          &nbsp;  
-	 	          <h:link style="font-size: 16px;" value="Login / Sign Up" onclick="loginDlg.show()" rendered="#{!identity.loggedIn}"/>
-	 	          &nbsp;  
-	              <h:link style="font-size: 16px;" value="Profile" outcome="pretty:profile" rendered="#{identity.loggedIn}"/>
-	              &nbsp;  
-	              <p:commandLink style="font-size: 16px;" value="Log Out" rendered="#{identity.loggedIn}"
-	                    action="#{identity.logout()}" ajax="false"/>
-              </h:form>
+    <div class="ui-widget-header main-header">
+        <div style="margin: 0 auto;width:95%">
+	        <h:form id="toolbar">
+	            <h:link outcome="home" value="wishlistery" styleClass="no-underline"/>
+	            <span style="text-align: right;float:right;padding-right: 15px;padding-top:15px;">
+		 	          <h:link style="font-size: 16px;" value="Create Wishlist" onclick="createWishlistDlg.show()" rendered="#{identity.loggedIn}" />
+		 	          &nbsp;  
+		 	          <h:link style="font-size: 16px;" value="Login / Sign Up" onclick="loginDlg.show()" rendered="#{!identity.loggedIn}"/>
+		 	          &nbsp;  
+		              <h:link style="font-size: 16px;" value="Profile" outcome="pretty:profile" rendered="#{identity.loggedIn}"/>
+		              &nbsp;  
+		              <p:commandLink style="font-size: 16px;" value="Log Out" rendered="#{identity.loggedIn}"
+		                    action="#{identity.logout()}" ajax="false"/>
+	            </span>
+	        </h:form>
         </div>
     </div>
     <div class="ui-state-default header-border" style="display: block;"></div>

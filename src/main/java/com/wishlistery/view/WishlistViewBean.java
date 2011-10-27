@@ -1,4 +1,4 @@
-package com.jeffskj.wishlist.view;
+package com.wishlistery.view;
 
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
@@ -7,9 +7,9 @@ import javax.inject.Named;
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.transaction.Transactional;
 
-import com.jeffskj.wishlist.domain.WishlistItem;
-import com.jeffskj.wishlist.domain.WishlistView;
-import com.jeffskj.wishlist.security.UserSession;
+import com.wishlistery.domain.WishlistItem;
+import com.wishlistery.domain.WishlistView;
+import com.wishlistery.security.UserSession;
 
 
 @Named

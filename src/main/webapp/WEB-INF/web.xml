@@ -2,7 +2,7 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	version="3.0"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-	<display-name>wishlist</display-name>
+	<display-name>wishlistery</display-name>
 	<context-param>
 		<param-name>primefaces.THEME</param-name>
 		<param-value>hot-sneaks</param-value>

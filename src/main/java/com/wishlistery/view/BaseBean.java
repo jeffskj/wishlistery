@@ -1,4 +1,4 @@
-package com.jeffskj.wishlist.view;
+package com.wishlistery.view;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import com.jeffskj.wishlist.domain.BaseEntity;
+import com.wishlistery.domain.BaseEntity;
 
 public abstract class BaseBean<T extends BaseEntity> implements Serializable {
     private static final long serialVersionUID = -3344572481329361875L;

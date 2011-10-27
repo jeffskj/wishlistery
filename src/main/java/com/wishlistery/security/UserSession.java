@@ -1,4 +1,4 @@
-package com.jeffskj.wishlist.security;
+package com.wishlistery.security;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import javax.inject.Named;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.external.openid.OpenIdUser;
 
-import com.jeffskj.wishlist.domain.User;
+import com.wishlistery.domain.User;
 
 @Named
 @SessionScoped

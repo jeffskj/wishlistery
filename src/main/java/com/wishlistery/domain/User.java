@@ -1,4 +1,4 @@
-package com.jeffskj.wishlist.domain;
+package com.wishlistery.domain;
 
 import java.io.Serializable;
 

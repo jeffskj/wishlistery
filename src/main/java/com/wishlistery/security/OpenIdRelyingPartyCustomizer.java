@@ -1,4 +1,4 @@
-package com.jeffskj.wishlist.security;
+package com.wishlistery.security;
 
 import javax.enterprise.event.Observes;
 import javax.servlet.ServletContext;
