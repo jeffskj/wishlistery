@@ -54,6 +54,7 @@
 		<dependency>
 			<groupId>org.jboss.seam.security</groupId>
 			<artifactId>seam-security</artifactId>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.jboss.seam.security</groupId>
@@ -75,7 +76,7 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>wishlist</finalName>
+		<finalName>wishlistery</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -87,4 +88,24 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles> 
+	<profile>
+      <id>prod</id>
+      <activation/>
+      <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp-prod</directory>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    </profile>
+	</profiles>
 </project>
