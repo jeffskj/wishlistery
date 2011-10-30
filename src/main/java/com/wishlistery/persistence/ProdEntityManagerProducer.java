@@ -1,16 +1,18 @@
-package com.wishlistery.domain;
+package com.wishlistery.persistence;
 
 import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 
 import org.jboss.solder.core.ExtensionManaged;
 
-public class EntityManagerProducer {
+@Alternative
+public class ProdEntityManagerProducer {
     @ExtensionManaged
     @Produces
-    @PersistenceUnit
+    @PersistenceUnit(name="prod")
     @ConversationScoped
     EntityManagerFactory producerField;
 }
