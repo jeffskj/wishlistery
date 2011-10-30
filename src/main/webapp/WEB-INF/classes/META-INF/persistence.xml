@@ -12,16 +12,4 @@
       <property name="hibernate.transaction.flush_before_completion" value="true"/>
     </properties>
   </persistence-unit>
-  <!-- 
-  <persistence-unit name="prod" transaction-type="JTA">
-    <description>Wishlistery Production DS</description>
-    <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <jta-data-source>java:jboss/datasources/Wishlistery</jta-data-source>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties>
-      <property name="hibernate.hbm2ddl.auto" value="create"/>
-      <property name="hibernate.transaction.flush_before_completion" value="true"/>
-    </properties>
-  </persistence-unit>
-   -->
 </persistence>
