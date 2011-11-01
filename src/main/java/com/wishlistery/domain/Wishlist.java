@@ -87,7 +87,8 @@ public class Wishlist extends BaseEntity implements Serializable {
     }
     
     public boolean isBlank() {
-        return categories != null && categories.size() == 1 && categories.get(0).getItems().isEmpty();
+        return categories == null || categories.size() == 0 
+                || (categories.size() == 1 && categories.get(0).getItems().isEmpty());
     }
 
     public String getUserId() {

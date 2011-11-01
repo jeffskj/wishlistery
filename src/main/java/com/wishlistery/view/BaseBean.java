@@ -2,7 +2,7 @@ package com.wishlistery.view;
 
 import java.io.Serializable;
 
-import javax.faces.context.FacesContext;
+import javax.faces.context.ExternalContext;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -19,6 +19,9 @@ public abstract class BaseBean<T extends BaseEntity> implements Serializable {
     @Inject
     protected EntityManager em;
 
+    @Inject
+    ExternalContext externalContext;
+    
     private Class<T> entityType;
 
     @SuppressWarnings("unchecked")
@@ -72,7 +75,7 @@ public abstract class BaseBean<T extends BaseEntity> implements Serializable {
     }
  
     private String encodeUrl(String view) {
-        return FacesContext.getCurrentInstance().getExternalContext().encodeResourceURL(view);
+        return externalContext.encodeResourceURL(view);
     }
     
     protected abstract T newEntityInstance();

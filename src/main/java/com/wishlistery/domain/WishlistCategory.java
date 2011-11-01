@@ -86,6 +86,6 @@ public class WishlistCategory extends BaseEntity implements Serializable {
     }
     
     public boolean isDefault() {
-        return name.equals(DEFAULT);
+        return name != null && name.equals(DEFAULT);
     }
 }
