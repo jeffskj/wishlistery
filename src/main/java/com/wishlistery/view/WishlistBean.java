@@ -201,4 +201,12 @@ public class WishlistBean extends BaseBean<Wishlist> {
     public void setNewWishlistName(String newWishlistName) {
         this.newWishlistName = newWishlistName;
     }
+    
+    public void resetItem() {
+        item = new WishlistItem();
+    }
+    
+    public void resetCategory() {
+        category = new WishlistCategory();
+    }
 }

@@ -43,9 +43,11 @@
 		       <div style="text-align:right; padding-bottom: 15px">
 		           <p:commandLink style="font-size: 12px;" value="Create View" onclick="createViewDlg.show()" />
 	                &nbsp;
-		            <p:commandLink style="font-size: 12px;" value="Add Item" onclick="addEditItemDlg.show()" />
+		            <p:commandLink style="font-size: 12px;" value="Add Item" onclick="addEditItemDlg.show()" 
+		               actionListener="#{wishlistBean.resetItem()}" update="addEditForm"/>
 		            &nbsp;
-		            <p:commandLink style="font-size: 12px;" value="Add Category" onclick="addCatDlg.show()" />    
+		            <p:commandLink style="font-size: 12px;" value="Add Category" onclick="addCatDlg.show()"
+		              actionListener="#{wishlistBean.resetCategory()}" update="addCatDlg"/>
 		       </div>
             </ui:fragment>
 

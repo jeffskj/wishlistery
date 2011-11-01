@@ -78,5 +78,10 @@ public abstract class BaseBean<T extends BaseEntity> implements Serializable {
         return externalContext.encodeResourceURL(view);
     }
     
+    public void resetEntity() {
+        entity = newEntityInstance();
+    }
+    
+    
     protected abstract T newEntityInstance();
 }
