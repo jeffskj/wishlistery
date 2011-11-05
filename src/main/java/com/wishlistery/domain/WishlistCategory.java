@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Version;
 
 import com.google.common.collect.Lists;
@@ -31,6 +32,7 @@ public class WishlistCategory extends BaseEntity implements Serializable {
     private Wishlist wishlist;
     private String name;
     
+    @OrderBy
     @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="category")
     private List<WishlistItem> items = Lists.newArrayList();
 

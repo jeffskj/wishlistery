@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Version;
 
 
@@ -31,9 +32,11 @@ public class Wishlist extends BaseEntity implements Serializable {
     
     private String userId;
     
+    @OrderBy
     @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="wishlist", fetch=FetchType.EAGER)
     private List<WishlistCategory> categories;
     
+    @OrderBy
     @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="wishlist", fetch=FetchType.LAZY)
     private List<WishlistView> views;
     
