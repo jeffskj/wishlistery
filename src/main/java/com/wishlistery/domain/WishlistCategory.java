@@ -57,6 +57,9 @@ public class WishlistCategory extends BaseEntity implements Serializable {
     }
 
     public List<WishlistItem> getItems() {
+        if (wishlist == null || wishlist.getItems() == null) {
+            return null;
+        }
         List<WishlistItem> filtered = new ArrayList<WishlistItem>(wishlist.getItems());
         for (Iterator<WishlistItem> it = filtered.iterator(); it.hasNext();) {
             if (!it.next().getCategory().equals(this)) {

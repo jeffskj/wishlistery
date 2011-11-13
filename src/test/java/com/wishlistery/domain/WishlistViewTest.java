@@ -3,13 +3,16 @@ package com.wishlistery.domain;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
 
 public class WishlistViewTest {
-
+    
+    private Wishlist list = new Wishlist();
+    
     @Test
     public void testIsCategoryEmpty() {
         WishlistCategory[] categories = new WishlistCategory[] {
@@ -41,6 +44,7 @@ public class WishlistViewTest {
     private WishlistCategory makeCategory(int i) {
         WishlistCategory cat = new WishlistCategory();
         cat.setId(i);
+        cat.setWishlist(list);
         cat.setName("category " + i);
         return cat;
     }
@@ -50,7 +54,10 @@ public class WishlistViewTest {
         item.setId(i);
         item.setTitle("item " + i);
         item.setCategory(cat);
-        cat.getItems().add(item);
+        if (cat.getWishlist().getItems() == null) {
+            cat.getWishlist().setItems(new ArrayList<WishlistItem>());
+        }
+        cat.getWishlist().getItems().add(item);
         return item;
     }
 

@@ -1,5 +1,6 @@
 package com.wishlistery.domain;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -16,7 +17,9 @@ public class WishlistTest {
         list.setCategories(new ArrayList<WishlistCategory>());
         list.getCategories().add(new WishlistCategory());
         assertTrue(list.isBlank());
-        list.getCategories().get(0).setItems(Arrays.asList(new WishlistItem()));
+        list.getCategories().add(new WishlistCategory());
+        list.setItems(Arrays.asList(new WishlistItem()));
+        assertFalse(list.isBlank());
     }
 
 }
