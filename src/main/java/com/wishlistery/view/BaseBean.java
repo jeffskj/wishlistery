@@ -33,6 +33,7 @@ public abstract class BaseBean<T extends BaseEntity> implements Serializable {
         try {
             if (!entity.isPersisted()) { //already loaded
                 entity = em.find(entityType, id);
+                loadAssociations();
             }
         } catch (NoResultException e) {
             entity = newEntityInstance();
@@ -41,12 +42,15 @@ public abstract class BaseBean<T extends BaseEntity> implements Serializable {
         return null;
     }
 
+    protected void loadAssociations() {}
+
     public String save() {
         if (id == 0) {
             em.persist(entity);
             return encodeUrl(entityType.getSimpleName().toLowerCase() + "?faces-redirect=true&id=" + entity.getId());
         } else {
             entity = em.merge(entity);
+            loadAssociations();
             return null;
         }
     }

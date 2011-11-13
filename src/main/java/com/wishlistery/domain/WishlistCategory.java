@@ -1,6 +1,8 @@
 package com.wishlistery.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,11 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Version;
-
-import com.google.common.collect.Lists;
 
 @Entity
 public class WishlistCategory extends BaseEntity implements Serializable {
@@ -28,14 +26,10 @@ public class WishlistCategory extends BaseEntity implements Serializable {
     private long id = 0;
 
     @JoinColumn
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    @ManyToOne(cascade=CascadeType.PERSIST, optional=false)
     private Wishlist wishlist;
     private String name;
     
-    @OrderBy
-    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="category")
-    private List<WishlistItem> items = Lists.newArrayList();
-
     @Version
     private int version = 0;
 
@@ -63,11 +57,13 @@ public class WishlistCategory extends BaseEntity implements Serializable {
     }
 
     public List<WishlistItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<WishlistItem> items) {
-        this.items = items;
+        List<WishlistItem> filtered = new ArrayList<WishlistItem>(wishlist.getItems());
+        for (Iterator<WishlistItem> it = filtered.iterator(); it.hasNext();) {
+            if (!it.next().getCategory().equals(this)) {
+                it.remove();
+            }
+        }
+        return filtered;
     }
 
     @Override

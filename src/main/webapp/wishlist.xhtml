@@ -162,10 +162,10 @@
                    <p:message id="linkMsg" for="link"/>
                </h:panelGrid>
                
-               <p:commandButton value="Add Item" action="#{wishlistBean.addItem()}" update="items" 
+               <p:commandButton value="Add Item" action="#{wishlistBean.addItem()}" update="itemsForm" 
                     rendered="#{!wishlistBean.item.persisted}" onclick="addEditItemDlg.close()"/>
                     
-               <p:commandButton value="Save" actionListener="#{wishlistBean.updateItem()}" update="items" 
+               <p:commandButton value="Save" actionListener="#{wishlistBean.updateItem()}" update="itemsForm" 
                     rendered="#{wishlistBean.item.persisted}" onclick="addEditItemDlg.close()"/>
             </h:form>
         </p:dialog>

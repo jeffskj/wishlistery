@@ -48,6 +48,12 @@ public class WishlistBean extends BaseBean<Wishlist> {
         return wishlist;
     }
 
+    @Override
+    protected void loadAssociations() {
+        entity.getViews().size();
+        entity.getCategories().size();
+    }
+    
     public boolean isOriginalUser() {
         if (session != null && session.isLoggedIn()) {
             return entity.getUserId() != null && entity.getUserId().equals(session.getUser().getId());
@@ -71,7 +77,9 @@ public class WishlistBean extends BaseBean<Wishlist> {
         }
         
         if (!isOriginalUser()) { return "pretty:home"; }
-        return super.save();
+        String save = super.save();
+        load();
+        return save;
     }
     
     public List<Wishlist> getUserWishlists() {
@@ -90,13 +98,7 @@ public class WishlistBean extends BaseBean<Wishlist> {
     
     public void addItem() {
         if (!isOriginalUser()) { return; }
-        
-        for (WishlistCategory cat : entity.getCategories()) {
-            if (cat.equals(item.getCategory())) {
-                cat.getItems().add(item);
-                break;
-            }
-        }
+        entity.getItems().add(item);
         save();
         item = new WishlistItem();
     }
@@ -104,11 +106,8 @@ public class WishlistBean extends BaseBean<Wishlist> {
     public void removeItem() {
         if (!isOriginalUser()) { return; }
         
-        for (WishlistCategory cat : entity.getCategories()) {
-            if (cat.equals(item.getCategory())) {
-                cat.getItems().remove(item);
-            }
-        }
+        entity.getItems().remove(item);
+        
         save();
         item = new WishlistItem();
     }
@@ -116,16 +115,12 @@ public class WishlistBean extends BaseBean<Wishlist> {
     public void updateItem() {
         if (!isOriginalUser()) { return; }
         
-        for (WishlistCategory cat : entity.getCategories()) {
-            if (cat.equals(item.getCategory())) {
-                for (WishlistItem it : cat.getItems()) {
-                    if (it.equals(item)) {
-                        it.setCategory(item.getCategory());
-                        it.setDescription(item.getDescription());
-                        it.setLink(item.getLink());
-                        it.setTitle(item.getTitle());
-                    }
-                }
+        for (WishlistItem it : entity.getItems()) {
+            if (it.equals(item)) {
+                it.setCategory(item.getCategory());
+                it.setDescription(item.getDescription());
+                it.setLink(item.getLink());
+                it.setTitle(item.getTitle());
             }
         }
         save();

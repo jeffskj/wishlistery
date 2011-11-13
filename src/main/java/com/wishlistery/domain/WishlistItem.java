@@ -27,7 +27,11 @@ public class WishlistItem extends BaseEntity implements Serializable {
     private int version = 0;
 
     @JoinColumn
-    @ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE})    
+    @ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE})
+    private Wishlist wishlist;
+    
+    @JoinColumn
+    @ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE}, optional=false)    
     private WishlistCategory category;
     
     @ManyToMany
@@ -103,5 +107,13 @@ public class WishlistItem extends BaseEntity implements Serializable {
 
     public void setViews(List<WishlistView> views) {
         this.views = views;
+    }
+
+    public Wishlist getWishlist() {
+        return wishlist;
+    }
+
+    public void setWishlist(Wishlist wishlist) {
+        this.wishlist = wishlist;
     }
 }

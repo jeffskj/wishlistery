@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 
 @Entity
 public class Wishlist extends BaseEntity implements Serializable {
@@ -33,7 +36,14 @@ public class Wishlist extends BaseEntity implements Serializable {
     private String userId;
     
     @OrderBy
-    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="wishlist", fetch=FetchType.EAGER)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="wishlist")
+    private List<WishlistItem> items;
+    
+    
+    @OrderBy
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(cascade=CascadeType.ALL, orphanRemoval=true, mappedBy="wishlist")
     private List<WishlistCategory> categories;
     
     @OrderBy
@@ -100,5 +110,13 @@ public class Wishlist extends BaseEntity implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public List<WishlistItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<WishlistItem> items) {
+        this.items = items;
     }
 }
