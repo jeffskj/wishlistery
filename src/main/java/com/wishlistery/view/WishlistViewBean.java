@@ -47,8 +47,8 @@ public class WishlistViewBean extends BaseBean<WishlistView> {
 
     public boolean isOriginalUser() {
         if (session != null && session.isLoggedIn()) {
-            return entity.getWishlist().getUserId() != null 
-                    && entity.getWishlist().getUserId().equals(session.getUser().getId());
+            return entity.getWishlist().getUser() != null 
+                    && entity.getWishlist().getUser().equals(session.getUser());
         }
         return false;
     }

@@ -68,7 +68,9 @@ and open the template in the editor.
         <div style="margin: 0 auto;width:95%">
 	        <h:form id="toolbar">
 	            <h:link outcome="home" value="wishlistery" styleClass="no-underline"/>
-	            <span style="text-align: right;float:right;padding-right: 15px;padding-top:15px;">
+	            <span style="text-align: right;float:right;padding-right: 15px;padding-top:2px;">
+	                  <h:outputText style="font-size: 16px;" value="Welcome, #{currentUser.firstName} #{currentUser.lastName}" rendered="#{identity.loggedIn}"/>
+	                  <br /> 
 		 	          <h:link style="font-size: 16px;" value="Create Wishlist" onclick="createWishlistDlg.show()" rendered="#{identity.loggedIn}" />
 		 	          &nbsp;  
 		 	          <h:link style="font-size: 16px;" value="Login / Sign Up" onclick="loginDlg.show()" rendered="#{!identity.loggedIn}"/>

@@ -40,7 +40,7 @@ public class WishlistBean extends BaseBean<Wishlist> {
     protected Wishlist newEntityInstance() {
         Wishlist wishlist = new Wishlist();
         if (session != null && session.isLoggedIn()) {
-            wishlist.setUserId(session.getUser().getId());
+            wishlist.setUser(session.getUser());
         }
         WishlistCategory cat = new WishlistCategory(WishlistCategory.DEFAULT);
         wishlist.setCategories(Lists.newArrayList(cat));
@@ -56,7 +56,7 @@ public class WishlistBean extends BaseBean<Wishlist> {
     
     public boolean isOriginalUser() {
         if (session != null && session.isLoggedIn()) {
-            return entity.getUserId() != null && entity.getUserId().equals(session.getUser().getId());
+            return entity.getUser() != null && entity.getUser().equals(session.getUser());
         }
         return false;
     }
@@ -83,8 +83,8 @@ public class WishlistBean extends BaseBean<Wishlist> {
     }
     
     public List<Wishlist> getUserWishlists() {
-        return em.createQuery("from Wishlist where userId = :id", Wishlist.class)
-                .setParameter("id", session.getUser().getId()).getResultList();
+        return em.createQuery("from Wishlist where user = :id", Wishlist.class)
+                .setParameter("id", session.getUser()).getResultList();
     }
     
     public String createView() throws IOException {
@@ -98,6 +98,7 @@ public class WishlistBean extends BaseBean<Wishlist> {
     
     public void addItem() {
         if (!isOriginalUser()) { return; }
+        item.setWishlist(entity);
         entity.getItems().add(item);
         save();
         item = new WishlistItem();

@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Version;
@@ -33,7 +35,9 @@ public class Wishlist extends BaseEntity implements Serializable {
     private String name;
     private String description;
     
-    private String userId;
+    @ManyToOne
+    @JoinColumn
+    private User user;
     
     @OrderBy
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -103,12 +107,12 @@ public class Wishlist extends BaseEntity implements Serializable {
         return categories == null || categories.size() <= 1 || items == null || items.isEmpty();
     }
 
-    public String getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
+    
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public List<WishlistItem> getItems() {

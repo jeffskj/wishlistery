@@ -1,4 +1,6 @@
-insert into Wishlist (description, name, version, id, userid) values ('Jeffs Xmas Wishlist', 'Christmas Wishlist', 1, 1, 'https://www.google.com/accounts/o8/id?id=AItOawmgSUw97r3kAh1BjnjbnlT0iOClt1MNv7I');
+insert into User (id, openId, email, firstName, lastName) values (1, 'https://www.google.com/accounts/o8/id?id=AItOawmgSUw97r3kAh1BjnjbnlT0iOClt1MNv7I', 'jeffskj@gmail.com', 'Jeff', 'Skjonsby');
+
+insert into Wishlist (description, name, version, id, user_id) values ('Jeffs Xmas Wishlist', 'Christmas Wishlist', 1, 1, 1);
 insert into WishlistCategory (name, version, wishlist_id, id) values ('(none)', 1, 1, 1);
 
 insert into WishlistItem (wishlist_id, category_id, description, link, title, version, id) values (1, 1, '1 year subscription', 'http://outdoorphotographer.com', 'Outdoor Photographer Subscription', 1, 1);
@@ -13,6 +15,7 @@ insert into WishlistCategory (name, version, wishlist_id, id) values ('Jeep Stuf
 
 insert into WishlistItem (wishlist_id, category_id, description, link, title, version, id) values (1, 3, 'not too particular about the brand, Gibson or Magnaflow or whatever', 'http://gibsonperformace.com', 'Cat back exhaust', 1, 5);
 insert into WishlistItem (wishlist_id, category_id, description, link, title, version, id) values (1, 3, 'not picky about the brand', '', 'Performance tuner', 1, 6);
+
 
 call next value for hibernate_sequence;
 call next value for hibernate_sequence;

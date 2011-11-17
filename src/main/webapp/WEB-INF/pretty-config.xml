@@ -10,7 +10,7 @@
    <url-mapping id="profile"> 
        <pattern value="/profile" /> 
        <view-id value="/profile.jsf" />
-       <action>#{userSession.checkLoggedIn()}</action>
+       <action>#{userSession.load()}</action>
    </url-mapping>
    
    <url-mapping id="wishlist"> 
