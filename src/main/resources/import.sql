@@ -1,4 +1,4 @@
-insert into User (id, openId, email, firstName, lastName) values (1, 'https://www.google.com/accounts/o8/id?id=AItOawmgSUw97r3kAh1BjnjbnlT0iOClt1MNv7I', 'jeffskj@gmail.com', 'Jeff', 'Skjonsby');
+insert into WishlistUser (id, openId, email, firstName, lastName) values (1, 'https://www.google.com/accounts/o8/id?id=AItOawmgSUw97r3kAh1BjnjbnlT0iOClt1MNv7I', 'jeffskj@gmail.com', 'Jeff', 'Skjonsby');
 
 insert into Wishlist (description, name, version, id, user_id) values ('Jeffs Xmas Wishlist', 'Christmas Wishlist', 1, 1, 1);
 insert into WishlistCategory (name, version, wishlist_id, id) values ('(none)', 1, 1, 1);
