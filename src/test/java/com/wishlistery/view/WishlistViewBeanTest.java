@@ -75,12 +75,9 @@ public class WishlistViewBeanTest {
             
             @Override
             public User getUser() {
-                return new User(null) {
-                  @Override
-                    public String getId() {
-                        return "test";
-                    }  
-                };
+                User user = new User();
+                user.setId(1);
+                return user;
             }
         };
         assertFalse(bean.isOriginalUser());
@@ -89,15 +86,17 @@ public class WishlistViewBeanTest {
         
         bean.entity = new WishlistView();
         bean.entity.setWishlist(new Wishlist());
-        bean.entity.getWishlist().setUserId(null);
+        bean.entity.getWishlist().setUser(null);
         
         assertFalse(bean.isOriginalUser());
         
-        bean.entity.getWishlist().setUserId("other");
+        User user = new User();
+        user.setId(2);
+        bean.entity.getWishlist().setUser(user);
         
         assertFalse(bean.isOriginalUser());
-        
-        bean.entity.getWishlist().setUserId("test");
+        user.setId(1);
+        bean.entity.getWishlist().setUser(user);
         
         assertTrue(bean.isOriginalUser());
     }
