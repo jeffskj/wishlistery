@@ -40,6 +40,11 @@
 			                      rendered="#{!identity.loggedIn}"/>
 			                  <p:commandButton value="Create Wishlist" styleClass="cta-button" onclick="createWishlistDlg.show()"
 			                      rendered="#{identity.loggedIn}"/>
+			                  
+			                  <br />
+			                  <br />
+			                      
+			                  <p:commandButton action="#{searchBean.goTo()}" value="Find a Wishlist" styleClass="cta-button" />    
 		               </h:form>
 	               </div>
 	               <br />

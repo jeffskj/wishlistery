@@ -7,6 +7,11 @@
        <view-id value="/home.jsf" />
    </url-mapping>
     
+   <url-mapping id="search"> 
+       <pattern value="/search" /> 
+       <view-id value="/search.jsf" />
+   </url-mapping> 
+    
    <url-mapping id="profile"> 
        <pattern value="/profile" /> 
        <view-id value="/profile.jsf" />

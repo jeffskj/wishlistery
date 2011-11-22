@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.prime.com.tr/ui">
+
+
+    <ui:composition template="/templates/content-template.xhtml">
+        <ui:param name="pageTitle" value="Find a Wishlist" />
+        <ui:define name="content">
+            <h:form>
+                Enter either First name and Last name or Email address:
+                <h:panelGrid columns="2">
+		            <p:inputText id="query" value="#{searchBean.query}" style="font-size:26px;width:500px;"/>
+		            <p:commandButton actionListener="#{searchBean.search()}" update="results" value="Search"/>
+                </h:panelGrid>
+	            <p:dataTable var="u" value="#{searchBean.results}" id="results">
+                   <p:column><p:rowToggler /></p:column>
+	               <p:column headerText="First Name">#{u.firstName}</p:column>
+	               <p:column headerText="Last Name">#{u.lastName}</p:column>
+	               <p:column headerText="Email Address">#{u.email}</p:column>
+	               <p:rowExpansion>
+	                    <b>Wishlists</b>  
+	                    <ul style="list-style-type: none;">
+	                        <ui:repeat value="#{searchBean.getWishlistsForUser(u)}" var="wl" itemType="none">  
+							    <li>
+								    <h:link outcome="pretty:wishlist">
+	                                     <f:param name="id" value="#{wl.id}"/>
+	                                     #{wl.name}
+	                                </h:link>
+							    </li>  
+							</ui:repeat>  
+	                    </ul>
+                   </p:rowExpansion>  
+	            </p:dataTable>
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+</html>
