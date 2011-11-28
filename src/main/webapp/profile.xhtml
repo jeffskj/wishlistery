@@ -19,12 +19,51 @@
                 </h:link>
             </p:dataList>
             
-             <div style="text-align: center;">
+            <div style="text-align: center;">
                   <h:form>
                          <p:commandButton value="Create Wishlist" styleClass="cta-button" onclick="createWishlistDlg.show()" />
                   </h:form>
+            </div>
+              
+            <h3>Gift Exchanges You Are Organizing</h3>
+            <p:dataList var="e" value="#{userBean.getExchangeDefinitionsForUser(userSession.user)}" itemType="none" styleClass="dataList">
+                <h:link outcome="/exchange.jsf" value="#{e.name}">
+                    <f:param name="id" value="#{e.id}"/>
+                </h:link>
+            </p:dataList>
+            
+             <div style="text-align: center;">
+                  <h:form>
+                         <p:commandButton value="Create Exchange" styleClass="cta-button" onclick="createExchangeDlg.show()" />
+                  </h:form>
               </div>
             
+            <p:dialog widgetVar="createExchangeDlg" modal="true" width="700" position="center">
+		        <h:form>
+		            <p:message id="exchangeNameMsg" for="exchangeName"/>
+		            <h:panelGrid columns="3" cellpadding="10">
+		                <h:outputLabel value="Name:" for="exchangeName" />
+		                <p:inputText value="#{giftExchangeBean.entity.name}" id="exchangeName" size="40">
+		                    <p:ajax event="keyup" update="exchangeNameMsg" />
+		                    <p:ajax event="blur" update="exchangeNameMsg" />
+		                </p:inputText>
+		                <p:commandButton value="Create" action="#{giftExchangeBean.save()}" ajax="false" 
+		                    onclick="createExchangeDlg.close()">
+		                    <f:setPropertyActionListener target="#{giftExchangeBean.entity.organizer}" 
+		                          value="#{userSession.user}"/>
+	                    </p:commandButton>
+		            </h:panelGrid>
+		        </h:form>
+		    </p:dialog>
+		    		    
+		    <h3>Gift Exchanges In Which You Are Participating</h3>
+            <p:dataList var="e" value="#{userBean.getExchangeParticipationForUser(userSession.user)}" itemType="none" styleClass="dataList">
+                #{e.definition.name}:
+                <h:link outcome="/exchange.jsf" value="#{e.label}">
+                    <f:param name="id" value="#{e.id}"/>
+                </h:link>
+                (You have #{e.userMappingsMap[userSession.user].firstName} #{e.userMappingsMap[userSession.user].lastName})
+            </p:dataList>
         </ui:define>
 
     </ui:composition>

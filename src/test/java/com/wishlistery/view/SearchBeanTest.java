@@ -14,7 +14,7 @@ public class SearchBeanTest {
 
     @Test
     public void shouldFindBasedOnName() {
-        SearchBean sb = new SearchBean() {
+        UserBean sb = new UserBean() {
             @Override
             List<User> findByName(String firstName, String lastName) {
                 return Arrays.asList(new User(), new User(), new User());
@@ -28,7 +28,7 @@ public class SearchBeanTest {
 
     @Test
     public void shouldFindBasedOnEmail() {
-        SearchBean sb = new SearchBean() {
+        UserBean sb = new UserBean() {
             @Override
             List<User> findByEmail(String email) {
                 return Arrays.asList(new User(), new User(), new User());

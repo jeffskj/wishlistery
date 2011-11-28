@@ -15,8 +15,8 @@
 		<h:form id="form">
 		    <h:messages globalOnly="true" />
             
-           <p:inplace editor="true" saveListener="#{wishlistBean.save()}" style="font-size:25px;font-weight:bold;"
-                rendered="#{wishlistBean.originalUser}">
+           <p:inplace editor="true" style="font-size:25px;font-weight:bold;" rendered="#{wishlistBean.originalUser}">
+                <p:ajax event="save" listener="#{wishlistBean.save()}"/>
 	            <p:inputText value="#{wishlistBean.entity.name}" id="name" size="40">
 	                 <p:ajax event="keyup" update="nameMsg" />
 	                 <p:ajax event="blur" update="nameMsg" />

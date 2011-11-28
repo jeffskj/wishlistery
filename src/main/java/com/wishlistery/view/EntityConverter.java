@@ -8,6 +8,7 @@ import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import com.google.common.base.Strings;
 import com.wishlistery.domain.BaseEntity;
 
 @RequestScoped
@@ -20,6 +21,9 @@ public class EntityConverter implements Converter {
     @Override
     public Object getAsObject(FacesContext ctx, UIComponent component, String value) {
         String[] parts = value.split("-");
+        if (Strings.isNullOrEmpty(value)) {
+            return null;
+        }
         try {
             return em.find(Class.forName(BaseEntity.class.getPackage().getName() + "." + parts[0]), Long.valueOf(parts[1]));
         } catch (Exception e) {

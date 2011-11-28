@@ -18,6 +18,12 @@
        <action>#{userSession.load()}</action>
    </url-mapping>
    
+   <url-mapping id="exchange"> 
+       <pattern value="/exchange/#{id : giftExchangeBean.id}" /> 
+       <view-id value="/exchange.jsf" />
+       <action>#{giftExchangeBean.load}</action>
+   </url-mapping>
+   
    <url-mapping id="wishlist"> 
        <pattern value="/wishlist/#{id : wishlistBean.id}" /> 
        <view-id value="/wishlist.jsf" />

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 import org.jboss.seam.security.external.openid.OpenIdUser;
 
-@Table(name="wishlistuser")
+@Table(name="WishlistUser")
 @Entity
 public class User extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -82,5 +82,10 @@ public class User extends BaseEntity implements Serializable {
 
     public void setWishlists(List<Wishlist> wishlists) {
         this.wishlists = wishlists;
+    }
+    
+    @Override
+    public String toString() {
+        return "[" + firstName + "," + lastName + "]";
     }
 }
