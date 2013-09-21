@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>3.0.M3</version>
+			<version>3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.primefaces.themes</groupId>
@@ -100,24 +100,42 @@
 			</plugin>
 		</plugins>
 	</build>
-	<profiles> 
-	<profile>
-      <id>prod</id>
-      <activation/>
-      <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <webResources>
-                        <resource>
-                            <directory>src/main/webapp-prod</directory>
-                        </resource>
-                    </webResources>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-    </profile>
+	<profiles>
+		<profile>
+			<id>prod</id>
+			<activation />
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<webResources>
+								<resource>
+									<directory>src/main/webapp-prod</directory>
+								</resource>
+							</webResources>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
+	<repositories>
+		<repository>
+			<id>jboss</id>
+			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
 </project>
