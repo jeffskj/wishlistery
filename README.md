@@ -1,12 +1,4 @@
-Spring Social Quickstart
-========================
-This sample is designed to get you up and running quickly.
-See the walkthrough at: https://github.com/SpringSource/spring-social/wiki/Quick-Start
+The OpenShift `jbosseap` cartridge documentation can be found at:
 
-To run, simply import the project into your IDE and deploy to a Servlet 2.5 or > container such as Tomcat 6 or 7.
-You can also deploy from the command line with:
-$ mvn tomcat:run
-
-Access the project at http://localhost:8080/spring-social-quickstart
-
-Discuss at forum.springsource.org and collaborate with the development team at jira.springframework.org/browse/SOCIAL.
+https://github.com/openshift/origin-server/tree/master/cartridges/openshift-origin-cartridge-jbosseap/README.md
+>>>>>>> 18e9e0cbfd962135c5b41e18ad310e0c88e54041
