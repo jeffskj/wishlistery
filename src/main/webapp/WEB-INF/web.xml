@@ -78,13 +78,7 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>appServlet</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
-
-
+	
     <servlet>
              <servlet-name>health</servlet-name>
              <jsp-file>/health.jsp</jsp-file>
