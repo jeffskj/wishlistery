@@ -43,13 +43,13 @@ import org.springframework.social.quickstart.user.User;
  * Spring Social Configuration.
  * @author Keith Donald
  */
-@Configuration
+//@Configuration
 public class SocialConfig {
 
-	@Inject
+//	@Inject
 	private Environment environment;
 
-	@Inject
+//	@Inject
 	private DataSource dataSource;
 
 	/**
@@ -67,7 +67,7 @@ public class SocialConfig {
 	/**
 	 * Singleton data access object providing access to connections across all users.
 	 */
-	@Bean
+//	@Bean
 	public UsersConnectionRepository usersConnectionRepository() {
 		JdbcUsersConnectionRepository repository = new JdbcUsersConnectionRepository(dataSource,
 				connectionFactoryLocator(), Encryptors.noOpText());
