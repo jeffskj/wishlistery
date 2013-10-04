@@ -98,6 +98,13 @@ public class WishlistWebService {
         return Response.noContent().location(URI.create("/wishlist/" + wishlist.getId())).build();
     }
     
+    @DELETE
+    @Path("{id}")
+    public void deleteWishlistById(@PathParam("id") String id) {
+        wishlistRepo.delete(id);
+    }
+    
+    
     private void throwError(Status status, String message) {
         throw new NoLogWebApplicationException(Response.status(status).entity(new ErrorResponse(message)).build());
     }
