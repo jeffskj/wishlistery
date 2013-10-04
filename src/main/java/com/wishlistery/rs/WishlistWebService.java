@@ -50,10 +50,11 @@ public class WishlistWebService {
     
     @POST
     @Path("{id}/view/{viewName}")
-    public void addView(@PathParam("id") String id, @PathParam("viewName") String viewName) {
+    public Response addView(@PathParam("id") String id, @PathParam("viewName") String viewName) {
         Wishlist wishlist = wishlistRepo.findOne(id);
         wishlist.addView(viewName);
         wishlistRepo.save(wishlist);
+        return Response.created(null).build();
     }
     
     @DELETE
@@ -70,10 +71,11 @@ public class WishlistWebService {
     
     @POST
     @Path("{id}/category/{categoryName}")
-    public void addCategory(@PathParam("id") String id, @PathParam("categoryName") String categoryName) {
+    public Response addCategory(@PathParam("id") String id, @PathParam("categoryName") String categoryName) {
         Wishlist wishlist = wishlistRepo.findOne(id);
         wishlist.addCategory(categoryName);
         wishlistRepo.save(wishlist);
+        return Response.created(null).build();
     }
     
     @DELETE
@@ -95,7 +97,7 @@ public class WishlistWebService {
         wishlist.setCategories(null); //must be managed separately
         wishlist.setViews(null); //must be managed separately
         wishlistRepo.save(wishlist);
-        return Response.noContent().location(URI.create("/wishlist/" + wishlist.getId())).build();
+        return Response.created(URI.create("/wishlist/" + wishlist.getId())).build();
     }
     
     @DELETE

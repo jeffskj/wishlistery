@@ -3,6 +3,7 @@ package com.wishlistery.rs;
 import static org.junit.Assert.*;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response.Status;
 
 import org.jboss.resteasy.client.ClientRequest;
 import org.jboss.resteasy.client.ClientResponse;
@@ -24,10 +25,10 @@ public class WishlistWebServiceIT {
         list.setDescription("this is a test wishlist");
         request.body(MediaType.APPLICATION_JSON_TYPE, list);
         ClientResponse<?> response = request.post();
-        assertEquals(204, response.getStatus());
+        assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
         
         System.out.println(response.getLocation().getHref());
-        
+        System.out.println(response.getEntity(String.class));
         response = response.getLocation().request().get(Wishlist.class);
         assertEquals(200, response.getStatus());
         
@@ -37,22 +38,24 @@ public class WishlistWebServiceIT {
         
         request = new ClientRequest(BASE_URI + "/{id}/view/testview").pathParameter("id", entity.getId());
         response = request.post();
-        assertEquals(204, response.getStatus());
+        assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
+        System.out.println(response.getEntity(String.class));
         
         response = request.delete();
-        assertEquals(204, response.getStatus());
+        assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
         
         request = new ClientRequest(BASE_URI + "/{id}/category/SomeCategory").pathParameter("id", entity.getId());
         response = request.post();
-        assertEquals(204, response.getStatus());
+        assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
+        System.out.println(response.getEntity(String.class));
         
         response = request.delete();
-        assertEquals(204, response.getStatus());
+        assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
         
         
         request = new ClientRequest(BASE_URI + "/{id}").pathParameter("id", entity.getId());
         response = request.delete();
-        assertEquals(204, response.getStatus());
+        assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
     }
 
 }
