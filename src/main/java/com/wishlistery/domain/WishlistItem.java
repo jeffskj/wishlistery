@@ -3,6 +3,8 @@ package com.wishlistery.domain;
 import java.io.Serializable;
 import java.util.Set;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 public class WishlistItem implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -53,6 +55,7 @@ public class WishlistItem implements Serializable {
         return link;
     }
     
+    @JsonIgnore
     public String getTrimmedLink() {
         if (link == null) {
             return null;

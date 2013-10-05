@@ -1,6 +1,6 @@
 package com.wishlistery.rs;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
@@ -10,6 +10,7 @@ import org.jboss.resteasy.client.ClientResponse;
 import org.junit.Test;
 
 import com.wishlistery.domain.Wishlist;
+import com.wishlistery.domain.WishlistItem;
 
 public class WishlistWebServiceIT {
 
@@ -52,6 +53,23 @@ public class WishlistWebServiceIT {
         response = request.delete();
         assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
         
+        request = new ClientRequest(BASE_URI + "/{id}/item").pathParameter("id", entity.getId());
+        WishlistItem item = new WishlistItem("my item", "my description", "http://somelink.com");
+        request.body(MediaType.APPLICATION_JSON_TYPE, item);
+        response = request.post();
+        assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
+        System.out.println(response.getEntity(String.class));
+        
+        item.setDescription("updated description");
+        request = new ClientRequest(BASE_URI + "/{id}/item/{itemId}").pathParameter("id", entity.getId()).pathParameter("itemId", 1);
+        request.body(MediaType.APPLICATION_JSON_TYPE, item);
+        response = request.put();
+        assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
+        System.out.println(response.getEntity(String.class));
+        
+        request = new ClientRequest(BASE_URI + "/{id}/item/{itemId}").pathParameter("id", entity.getId()).pathParameter("itemId", 1);
+        response = request.delete();
+        assertEquals(Status.NO_CONTENT.getStatusCode(), response.getStatus());
         
         request = new ClientRequest(BASE_URI + "/{id}").pathParameter("id", entity.getId());
         response = request.delete();

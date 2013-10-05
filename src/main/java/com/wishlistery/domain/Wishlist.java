@@ -145,4 +145,13 @@ public class Wishlist extends BaseEntity implements Serializable {
         }
         categories.remove(categoryName);        
     }
+
+    public WishlistItem getItem(int itemId) {
+        for (WishlistItem item : items) {
+            if (item.getId() == itemId) {
+                return item;
+            }
+        }
+        return null;
+    }
 }
