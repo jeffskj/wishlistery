@@ -3,12 +3,13 @@ package com.wishlistery.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.google.common.base.Strings;
 
 
 @Document
@@ -85,7 +86,7 @@ public class Wishlist extends BaseEntity implements Serializable {
     }
 
     public List<WishlistItem> getItemsInCategory(String name) {
-        return getItemsInCategory(items, name);
+        return getItemsInCategory(items, Strings.emptyToNull(name));
     }
     
     public List<WishlistItem> getItemsInViewAndCategory(String view, String category) {
@@ -95,7 +96,7 @@ public class Wishlist extends BaseEntity implements Serializable {
     public List<WishlistItem> getItemsInCategory(List<WishlistItem> itemList, String category) {
         List<WishlistItem> results = new ArrayList<>();
         for (WishlistItem item : itemList) {
-            if (item.getCategory().equals(category)) { 
+            if (Objects.equals(category, item.getCategory())) { 
                 results.add(item);
             }
         }

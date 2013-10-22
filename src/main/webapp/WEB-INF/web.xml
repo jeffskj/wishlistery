@@ -16,12 +16,12 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>com.wishlistery</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>resteasy.servlet.mapping.prefix</param-name>
 		<param-value>rs/</param-value>
 	</context-param>
- 
+
 	<listener>
 		<listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
 	</listener>
@@ -40,6 +40,15 @@
 		<url-pattern>/rs/*</url-pattern>
 	</servlet-mapping>
 
+	<servlet>
+		<servlet-name>RESTEasy JSAPI</servlet-name>
+		<servlet-class>org.jboss.resteasy.jsapi.JSAPIServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>RESTEasy JSAPI</servlet-name>
+		<url-pattern>/rest.js</url-pattern>
+	</servlet-mapping>
 
 	<!-- Ensure UTF-8 character encoding is used -->
 	<filter>
@@ -60,18 +69,6 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- Enables support for DELETE and PUT request methods with web browser 
-		clients -->
-	<filter>
-		<filter-name>hiddenHttpMethodFilter</filter-name>
-		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
-	</filter>
-
-	<filter-mapping>
-		<filter-name>hiddenHttpMethodFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-
 	<!-- Handles requests into the application -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
@@ -83,13 +80,9 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-	<servlet>
-		<servlet-name>health</servlet-name>
-		<jsp-file>/health.jsp</jsp-file>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>health</servlet-name>
-		<url-pattern>/health</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>appServlet</servlet-name>
+        <url-pattern>*.go</url-pattern>
+    </servlet-mapping>
 
 </web-app>

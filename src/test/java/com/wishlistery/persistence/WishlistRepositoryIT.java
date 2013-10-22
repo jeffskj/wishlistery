@@ -1,15 +1,13 @@
 package com.wishlistery.persistence;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.taglibs.standard.tag.common.core.SetSupport;
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.google.common.collect.Sets;
 import com.wishlistery.domain.Wishlist;
 import com.wishlistery.domain.WishlistItem;
 
@@ -17,6 +15,7 @@ public class WishlistRepositoryIT {
 
     @Test
     public void canPerformCrudOnWishlist() {
+        @SuppressWarnings("resource")
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring/bootstrap.xml");
         WishlistRepository repository = context.getBean(WishlistRepository.class);
         repository.deleteAll();

@@ -13,14 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.social.quickstart.config;
-
-import javax.inject.Inject;
+package com.wishlistery.control;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.social.connect.UsersConnectionRepository;
-import org.springframework.social.quickstart.user.UserInterceptor;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -36,23 +32,26 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new UserInterceptor(usersConnectionRepository));
+	@Override
+    public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(new UserInterceptor(usersConnectionRepository));
 	}
 
-	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/signin");
-		registry.addViewController("/signout");
+	@Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+//		registry.addViewController("/signin");
+//		registry.addViewController("/signout");
 	}
 
 	@Bean
 	public ViewResolver viewResolver() {
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-		viewResolver.setPrefix("/WEB-INF/views/");
+		viewResolver.setPrefix("/jsp/");
 		viewResolver.setSuffix(".jsp");
 		return viewResolver;
 	}
 
-	private @Inject UsersConnectionRepository usersConnectionRepository;
+//	private @Inject UsersConnectionRepository usersConnectionRepository;
 
 }
+ 

@@ -1,0 +1,19 @@
+body {
+  padding-top: 50px;
+}
+
+.template {
+  padding: 40px 15px;
+  text-align: center;
+}
+
+.content {
+    width: 80%;
+    min-height: 400px;
+    background-color: white;
+    color: black;
+}
+
+.ugc {
+    font-family: "Cabin", Arial    
+}
