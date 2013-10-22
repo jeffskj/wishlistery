@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
 import org.jboss.resteasy.spi.NoLogWebApplicationException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -126,6 +127,7 @@ public class WishlistWebService {
         if (savedItem == null) {
              throwError(Status.NOT_FOUND, "no wishlist item with specified id");
         }
+        BeanUtils.copyProperties(item, savedItem, new String[] {"id"});
         wishlistRepo.save(wishlist);        
     }
     
