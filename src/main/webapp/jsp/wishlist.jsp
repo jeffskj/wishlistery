@@ -30,9 +30,19 @@
     </div>
 
     <div class="container content">
-      
-        <h1 class="ugc">${wishlist.name}</h1>
-        <p class="lead">${wishlist.description}</p>
+        
+        <table>
+            <tr>
+                <td style="width: 90%">
+                    <h1 class="ugc">${wishlist.name}</h1>
+                    <p class="lead">${wishlist.description}</p>
+                </td>
+                <td style="vertical-align: bottom;">
+                      <button type="button" class="btn btn-primary">Quick Edit</button>
+                </td>
+            </tr>
+        </table>
+        
         <hr/>
         
         <ul>
