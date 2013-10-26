@@ -2,19 +2,32 @@ package com.wishlistery.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 @Document
 @JsonIgnoreProperties({"blank", "persisted"})
 public class Wishlist extends BaseEntity implements Serializable {
+    private static final String VIEWS_PATTERN = "\\[([ \\w,]+)\\]";
+
+    private static final String DESCRIPTION_PATTERN = "\\(([ \\w]+)\\)";
+
+    private static final String LINK_PATTERN = "\\b((?:http|www\\.)[\\w\\p{Punct}]+)\\b";
+
     private static final long serialVersionUID = 1L;
     
     @Id    
@@ -155,4 +168,133 @@ public class Wishlist extends BaseEntity implements Serializable {
         }
         return null;
     }
+
+    public void quickEdit(String text) {
+        categories.clear();
+        items.clear();
+        views.clear();
+        
+        if (text == null) {
+            return; //maybe should just clear the list??
+        }
+        // read lines
+        // if line contains :, or next line starts with \w+[-*]\w+ assume it contains category
+        // if that line contains further words, split on [;,]
+        //    parse split line as items
+        // if already in a category assume line starts an item
+        //   parse line for (description) http://lookslikealink.com [views] 
+        String[] lines = text.split("\n");
+        String category = null;
+        Set<String> uniqueViews = new LinkedHashSet<>();
+        
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i].trim();
+            if (line.trim().isEmpty()) { continue; }
+            
+            if (line.contains(":") || i+1 < lines.length && lines[i+1].matches("\\w+[-*].+")) {
+                // this line has a category
+                String[] parts = line.split(":");
+                category = parts[0].trim();
+                categories.add(category);
+                
+                if (parts.length == 2) {
+                    String[] inlineItems = parts[1].trim().split("[;,]");
+                    for (String itemString : inlineItems) {
+                        addItem(itemString, category, uniqueViews);
+                    }
+                    
+                }
+            } else {
+                // this is just an item
+                StringBuilder itemString = new StringBuilder(line);
+                for (int j = i+1; j < lines.length; j++) {
+                    String nextLine = lines[j];
+                    String nextLineTrim = nextLine.trim();
+                    boolean matchesAttribute = nextLineTrim.matches(LINK_PATTERN) || nextLineTrim.matches(DESCRIPTION_PATTERN)
+                                                || nextLineTrim.matches(VIEWS_PATTERN);
+                    
+                    if (!nextLineTrim.isEmpty() && nextLineTrim.charAt(0) != nextLine.charAt(0) || matchesAttribute) { 
+                     // if trimming removes characters from the front
+                        if (!matchesAttribute) {
+                            itemString.append(" (").append(nextLineTrim).append(") ");
+                        } else {
+                            itemString.append(' ').append(nextLineTrim).append(' ');
+                        }
+                    } else {
+                        addItem(itemString, category, uniqueViews);
+                        i = j-1;
+                        break;
+                    }
+                }
+            }
+            
+        }
+        
+        views = Lists.newArrayList(uniqueViews);
+    }
+
+    private void addItem(CharSequence itemString, String category, Set<String> uniqueViews) {
+        WishlistItem item = parseItemString(itemString);
+        item.setCategory(category);
+        uniqueViews.addAll(item.getViews());
+        items.add(item);
+    }
+
+    WishlistItem parseItemString(CharSequence itemString) {
+        StringBuilder itemSb = new StringBuilder(itemString);
+        WishlistItem item = new WishlistItem();
+        item.setDescription(matchGroupAndReplace(itemSb, DESCRIPTION_PATTERN));
+        item.setLink(matchGroupAndReplace(itemSb, LINK_PATTERN));
+        String views = matchGroupAndReplace(itemSb, VIEWS_PATTERN);
+        if (views != null) {
+            item.setViews(Sets.newHashSet(Splitter.on(',').trimResults().split(views)));
+        }
+        item.setTitle(itemSb.toString().trim());
+        return item;
+    }
+    
+    private String matchGroupAndReplace(StringBuilder text, String pattern) {
+        Matcher m = Pattern.compile(pattern).matcher(text);
+        if (m.find() && m.groupCount() == 1) {
+            String match = m.group(1);
+            text.delete(m.start(), m.end());
+            return match.trim();
+        }
+        return null;
+    }
+    
+    public String toQuickEditText() {
+        StringBuilder result = new StringBuilder();
+        result.append(toQuickEditText(null));
+        for (String cat : categories) {
+            result.append(toQuickEditText(cat));
+        }
+        return result.toString();
+                
+    }
+    
+    private String toQuickEditText(String category) {
+        StringBuilder result = new StringBuilder();
+        if (category != null) {
+            result.append(category).append(":\n\n");
+        }
+        
+        for (WishlistItem item : getItemsInCategory(category)) {
+            result.append(item.getTitle()).append('\n');
+            if (item.getDescription() != null) { appendLine(result, item.getDescription()); }
+            if (item.getLink() != null) { appendLine(result, item.getLink()); }
+            
+            if (!item.getViews().isEmpty()) {
+                appendLine(result, "[" + Joiner.on(',').join(item.getViews()) + "]");
+            }
+            appendLine(result, "");
+        }
+        
+        return result.append('\n').toString();
+    }
+    
+    private void appendLine(StringBuilder sb, Object o) {
+        sb.append("   ").append(o).append('\n');
+    }
+    
 }

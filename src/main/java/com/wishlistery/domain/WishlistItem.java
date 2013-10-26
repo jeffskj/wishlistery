@@ -1,6 +1,7 @@
 package com.wishlistery.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
@@ -11,7 +12,7 @@ public class WishlistItem implements Serializable {
     private int id = 0;
 
     private String category;
-    private Set<String> views;
+    private Set<String> views = new HashSet<>();
     
     private String title;
     private String description;
