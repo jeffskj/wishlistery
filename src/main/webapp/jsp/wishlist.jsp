@@ -4,9 +4,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <w:head title="${wishlist.name}"/>
-
+  
   <body>
-
+    <script type="text/javascript">
+    function toggleQuickEdit() {
+    	$('#quickEditTxt').toggle();
+        $('#quickEditSaveBtn').toggle();
+        $('#quickEditBtn').toggle();
+    }
+    </script>
+  
     <div class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -31,14 +38,25 @@
 
     <div class="container content">
         
-        <table>
+        <table style="width: 100%">
             <tr>
                 <td style="width: 90%">
                     <h1 class="ugc">${wishlist.name}</h1>
                     <p class="lead">${wishlist.description}</p>
                 </td>
                 <td style="vertical-align: bottom;">
-                      <button type="button" class="btn btn-primary">Quick Edit</button>
+                      <button id="quickEditBtn" type="button" class="btn btn-primary" 
+                        onclick="toggleQuickEdit()">Quick Edit</button>
+                        
+                      <button id="quickEditSaveBtn" type="button" class="btn btn-primary" style="display: none"
+                        onclick="toggleQuickEdit()">Save</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <form>
+                       <textarea id="quickEditTxt" class="form-control" rows="6" style="margin-top:15px;display:none;width:100%"></textarea>
+                    </form>
                 </td>
             </tr>
         </table>
