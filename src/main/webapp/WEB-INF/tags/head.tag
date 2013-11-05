@@ -14,7 +14,8 @@
    
    <!-- Custom styles for this template -->
    <link href="/css/template.css" rel="stylesheet">
-   
+   <script src="//code.jquery.com/jquery-2.0.3.js"></script>
+   <script src="http://cdnjs.cloudflare.com/ajax/libs/knockout/3.0.0/knockout-min.js"></script>
    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
    <!--[if lt IE 9]>
       <script src="../../assets/js/html5shiv.js"></script>

@@ -5,13 +5,45 @@
 <html lang="en">
   <w:head title="${wishlist.name}"/>
   
-  <body>
+  <body onload="ko.applyBindings(new WishlistViewModel());">
     <script type="text/javascript">
     function toggleQuickEdit() {
     	$('#quickEditTxt').toggle();
         $('#quickEditSaveBtn').toggle();
         $('#quickEditBtn').toggle();
     }
+
+    ko.bindingHandlers.debug = 
+    {
+        init: function(element, valueAccessor) 
+        {
+            console.log( 'Knockoutbinding:' );
+            console.log( element );
+            console.log( valueAccessor() );
+        }
+    };
+    
+    function Category(name, itemsInCat) { this.name = name;this.itemsInCat = itemsInCat; }
+
+    function WishlistViewModel() {
+        var wishlist = $.parseJSON('${wishlistJson}');
+        self.name = wishlist.name;
+        self.description = wishlist.description;
+        self.items = ko.observableArray(wishlist.items);
+        self.categories = wishlist.categories;
+
+        self.itemsByCategory = ko.computed(function() {
+            var itemsByCategory = [];
+            itemsByCategory.push(new Category('', $.grep(items(), function(it, i) { return it.category == null; })));
+
+            
+            for (c of self.categories) {
+                itemsByCategory.push(new Category(c, $.grep(items(), function(it, i) { return it.category == c; })));
+            }  
+            return itemsByCategory;  
+        });
+    }
+          
     </script>
   
     <div class="navbar navbar-default navbar-fixed-top">
@@ -41,7 +73,7 @@
         <table style="width: 100%">
             <tr>
                 <td style="width: 90%">
-                    <h1 class="ugc">${wishlist.name}</h1>
+                    <h1 class="ugc" data-bind="text: name"></h1>
                     <p class="lead">${wishlist.description}</p>
                 </td>
                 <td style="vertical-align: bottom;">
@@ -55,7 +87,9 @@
             <tr>
                 <td colspan="2">
                     <form>
-                       <textarea id="quickEditTxt" class="form-control" rows="6" style="margin-top:15px;display:none;width:100%"></textarea>
+                       <textarea id="quickEditTxt" class="form-control" rows="6" style="margin-top:15px;display:none;width:100%">
+                        ${wishlist.quickEditText}
+                       </textarea>
                     </form>
                 </td>
             </tr>
@@ -63,25 +97,19 @@
         
         <hr/>
         
-        <ul>
-            <c:forEach var="it" items="${wishlist.getItemsInCategory(null)}">
-                <li>${it.title}</li>    
-            </c:forEach>
-        </ul>
-
-        <c:forEach var="cat" items="${wishlist.categories}">
-            <c:set var="items" value="${wishlist.getItemsInCategory(cat)}"/>
-            <c:if test="${not empty items}">
-               <h2 class="ugc">${cat}</h2>
-               <ul>
-                  <c:forEach var="it" items="${items}">
-                       <li>${it.title}</li>    
-                  </c:forEach>
-                  
-               </ul>
-            </c:if>
-        </c:forEach>
-
+        <div data-bind="foreach: itemsByCategory">
+           <h2 class="ugc" data-bind="text: name"></h2> 
+           
+           <ul data-bind="foreach: itemsInCat, debug: $data" class="list-unstyled">            
+                <li>
+                    <span data-bind="text: title"></span>
+                    <br>
+                    <span data-bind="text: description"></span>
+                    <br>
+                    <a data-bind="text: link, attr: {href: link}"></a>
+                </li>    
+           </ul>
+        </div>
     </div><!-- /.container -->
 
     <w:foot/>

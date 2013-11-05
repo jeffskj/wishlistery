@@ -263,17 +263,17 @@ public class Wishlist extends BaseEntity implements Serializable {
         return null;
     }
     
-    public String toQuickEditText() {
+    public String getQuickEditText() {
         StringBuilder result = new StringBuilder();
-        result.append(toQuickEditText(null));
+        result.append(getQuickEditText(null));
         for (String cat : categories) {
-            result.append(toQuickEditText(cat));
+            result.append(getQuickEditText(cat));
         }
         return result.toString();
                 
     }
     
-    private String toQuickEditText(String category) {
+    private String getQuickEditText(String category) {
         StringBuilder result = new StringBuilder();
         if (category != null) {
             result.append(category).append(":\n\n");

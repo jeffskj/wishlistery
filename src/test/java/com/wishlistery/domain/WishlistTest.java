@@ -98,7 +98,7 @@ public class WishlistTest {
         wishlist.getItems().get(1).setCategory("Tools");
         wishlist.getItems().get(1).getViews().add("Kasper Fam");
         
-        System.out.println(wishlist.toQuickEditText());
+        System.out.println(wishlist.getQuickEditText());
     }    
 
     @Test
@@ -119,7 +119,7 @@ public class WishlistTest {
     @Test
     public void canParseInlineFormat() throws IOException {
         wishlist.quickEdit(getQuickEditTestData(1));
-        System.out.println(wishlist.toQuickEditText());
+        System.out.println(wishlist.getQuickEditText());
         
 //        Emma: shoes,shirt,lamp (something shiney)
 //        Eric: gloves,hat [Skjonsby],toys
@@ -136,7 +136,7 @@ public class WishlistTest {
     @Test
     public void canParseCanonicalQuickEditText() throws IOException {
         wishlist.quickEdit(getQuickEditTestData(0));
-        System.out.println(wishlist.toQuickEditText());
+        System.out.println(wishlist.getQuickEditText());
         
         assertEquals(2, wishlist.getCategories().size());
         assertTrue(wishlist.getCategories().contains("Tools"));
