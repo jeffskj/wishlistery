@@ -146,6 +146,21 @@ public class WishlistTest {
         
     }
     
+    @Test
+    public void canParseCanonicalQuickEditText2() throws IOException {
+        wishlist.quickEdit(getQuickEditTestData(3));
+        System.out.println(wishlist.getQuickEditText());
+        
+        assertEquals(2, wishlist.getCategories().size());
+        assertTrue(wishlist.getCategories().contains("cat1"));
+        assertTrue(wishlist.getCategories().contains("cat3"));
+        
+        assertEquals(2, wishlist.getItems().size());
+        assertEquals("This is a second item", wishlist.getItem(1).getTitle());
+        assertEquals("This is it's description", wishlist.getItem(1).getDescription());
+        
+    }
+    
     private String getQuickEditTestData(int num) throws IOException {
         String testData = IOUtils.toString(getClass().getClassLoader().getResourceAsStream("wishlist-quick-edit.txt"));
         String[] data = testData.split(Strings.repeat("=", 50));

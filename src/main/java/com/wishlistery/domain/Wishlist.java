@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -24,7 +25,7 @@ import com.google.common.collect.Sets;
 public class Wishlist extends BaseEntity implements Serializable {
     private static final String VIEWS_PATTERN = "\\[([ \\w,]+)\\]";
 
-    private static final String DESCRIPTION_PATTERN = "\\(([ \\w]+)\\)";
+    private static final String DESCRIPTION_PATTERN = "\\(([^)]+)\\)";
 
     private static final String LINK_PATTERN = "\\b((?:http|www\\.)[\\w\\p{Punct}]+)\\b";
 
@@ -127,7 +128,7 @@ public class Wishlist extends BaseEntity implements Serializable {
     }
 
     private int nextId() {
-        int max = 0;
+        int max = -1;
         for (WishlistItem item : items) {
             if (item.getId() > max) { max = item.getId(); }
         }
@@ -237,7 +238,7 @@ public class Wishlist extends BaseEntity implements Serializable {
         WishlistItem item = parseItemString(itemString);
         item.setCategory(category);
         uniqueViews.addAll(item.getViews());
-        items.add(item);
+        addItem(item);
     }
 
     WishlistItem parseItemString(CharSequence itemString) {
@@ -263,6 +264,7 @@ public class Wishlist extends BaseEntity implements Serializable {
         return null;
     }
     
+    @JsonIgnore
     public String getQuickEditText() {
         StringBuilder result = new StringBuilder();
         result.append(getQuickEditText(null));
