@@ -155,7 +155,7 @@ public class WishlistTest {
         assertTrue(wishlist.getCategories().contains("cat1"));
         assertTrue(wishlist.getCategories().contains("cat3"));
         
-        assertEquals(2, wishlist.getItems().size());
+        assertEquals(3, wishlist.getItems().size());
         assertEquals("This is a second item", wishlist.getItem(1).getTitle());
         assertEquals("This is it's description", wishlist.getItem(1).getDescription());
         

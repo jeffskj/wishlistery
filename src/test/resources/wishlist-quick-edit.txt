@@ -47,6 +47,4 @@ This is a second item
    This is it's description
    http://google.com
    
-
-
-                       
+third                      

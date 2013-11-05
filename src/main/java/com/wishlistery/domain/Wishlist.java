@@ -208,7 +208,11 @@ public class Wishlist extends BaseEntity implements Serializable {
             } else {
                 // this is just an item
                 StringBuilder itemString = new StringBuilder(line);
-                for (int j = i+1; j < lines.length; j++) {
+                for (int j = i+1; j < lines.length+1; j++) {
+                    if (j == lines.length) { //last line
+                        addItem(itemString, category, uniqueViews);
+                        break;
+                    }
                     String nextLine = lines[j];
                     String nextLineTrim = nextLine.trim();
                     boolean matchesAttribute = nextLineTrim.matches(LINK_PATTERN) || nextLineTrim.matches(DESCRIPTION_PATTERN)

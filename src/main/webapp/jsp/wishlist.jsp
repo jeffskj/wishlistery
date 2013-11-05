@@ -6,10 +6,12 @@
   <w:head title="${wishlist.name}"/>
   
   <body onload="ko.applyBindings(new WishlistViewModel());">
+    <script src="/rest.js"></script>
     <script type="text/javascript">
     function toggleQuickEdit() {
     	$('#quickEditTxt').toggle();
         $('#quickEditSaveBtn').toggle();
+        $('#quickEditPreviewBtn').toggle();
         $('#quickEditBtn').toggle();
     }
 
@@ -22,6 +24,8 @@
             console.log( valueAccessor() );
         }
     };
+
+    var wishlistId = '${wishlist.id}';
     
     function Category(name, itemsInCat) { this.name = name;this.itemsInCat = itemsInCat; }
 
@@ -31,7 +35,8 @@
         self.description = wishlist.description;
         self.items = ko.observableArray(wishlist.items);
         self.categories = wishlist.categories;
-
+        self.views = wishlist.views;
+        
         self.itemsByCategory = ko.computed(function() {
             var itemsByCategory = [];
             itemsByCategory.push(new Category('', $.grep(items(), function(it, i) { return it.category == null; })));
@@ -42,8 +47,15 @@
             }  
             return itemsByCategory;  
         });
+
+        self.quickEdit = function(preview) {
+            var txt = $('#quickEditTxt').val();
+            var wishlist = $.parseJSON(WishlistWebService.quickEditWishlistById({id: wishlistId, $entity:txt, preview: preview}));
+            self.views = wishlist.views;
+            self.categories = wishlist.categories;
+            self.items(wishlist.items); 
+        }   
     }
-          
     </script>
   
     <div class="navbar navbar-default navbar-fixed-top">
@@ -77,11 +89,23 @@
                     <p class="lead">${wishlist.description}</p>
                 </td>
                 <td style="vertical-align: bottom;">
-                      <button id="quickEditBtn" type="button" class="btn btn-primary" 
-                        onclick="toggleQuickEdit()">Quick Edit</button>
                         
-                      <button id="quickEditSaveBtn" type="button" class="btn btn-primary" style="display: none"
-                        onclick="toggleQuickEdit()">Save</button>
+                      <table>
+                        <tr>
+                            <td>
+                               <button id="quickEditBtn" type="button" class="btn btn-primary" 
+                                onclick="toggleQuickEdit()">Quick Edit</button>
+                                
+                               <button id="quickEditPreviewBtn" type="button" class="btn btn-secondary" style="display: none"
+                                 onclick="quickEdit(true)">Preview</button>  
+                             </td>
+                             <td>
+                               <button id="quickEditSaveBtn" type="button" class="btn btn-primary" style="display: none"
+                                 onclick="quickEdit(false);toggleQuickEdit()">Save</button>
+                             </td>
+                        </tr>
+                      </table>
+                      
                 </td>
             </tr>
             <tr>
