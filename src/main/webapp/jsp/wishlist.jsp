@@ -3,7 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
-  <w:head title="${wishlist.name}"/>
+  <w:head title="${wishlist.name}">
+    <link href="/css/wishlist.css" rel="stylesheet"/>
+  </w:head>
   
   <body onload="ko.applyBindings(new WishlistViewModel());">
     <script src="/rest.js"></script>
@@ -122,14 +124,12 @@
         <hr/>
         
         <div data-bind="foreach: itemsByCategory">
-           <h2 class="ugc" data-bind="text: name"></h2> 
+           <h1 class="ugc"><small data-bind="text: name"></small></h1> 
            
            <ul data-bind="foreach: itemsInCat, debug: $data" class="list-unstyled">            
-                <li>
-                    <span data-bind="text: title"></span>
-                    <br>
-                    <span data-bind="text: description"></span>
-                    <br>
+                <li class="wishlist-item">
+                    <b  data-bind="text: title"></b>
+                    <i data-bind="text: description"></i>
                     <a data-bind="text: link, attr: {href: link}"></a>
                 </li>    
            </ul>
