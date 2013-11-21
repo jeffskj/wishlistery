@@ -5,11 +5,17 @@
 <html lang="en">
   <w:head title="${wishlist.name}">
     <link href="/css/wishlist.css" rel="stylesheet"/>
+    <link href="/css/bootstrap-editable.css" rel="stylesheet"/>
   </w:head>
   
   <body onload="ko.applyBindings(new WishlistViewModel());">
+    <script src="/js/bootstrap-editable.js"></script>
+    <script src="/js/knockout.x-editable.min.js"></script>
     <script src="/rest.js"></script>
     <script type="text/javascript">
+    $(document).ready(function() {
+        $('.editable').editable();
+     });
     function toggleQuickEdit() {
     	$('#quickEditTxt').toggle();
         $('#quickEditSaveBtn').toggle();
@@ -124,13 +130,15 @@
         <hr/>
         
         <div data-bind="foreach: itemsByCategory">
-           <h1 class="ugc"><small data-bind="text: name"></small></h1> 
+           <h1 class="ugc"><small data-bind="text: name, editable: name, visible: name != ''" class="editable"></small></h1> 
            
            <ul data-bind="foreach: itemsInCat, debug: $data" class="list-unstyled">            
                 <li class="wishlist-item">
-                    <b  data-bind="text: title"></b>
-                    <i data-bind="text: description"></i>
-                    <a data-bind="text: link, attr: {href: link}"></a>
+                    <b data-bind="text: title, editable: title" class="editable"></b>
+                    <br />
+                    <i data-bind="text: description, editable: description" class="editable"></i>
+                    <br />
+                    <a data-bind="text: link, attr: {href: link}, editable: link"></a>
                 </li>    
            </ul>
         </div>
