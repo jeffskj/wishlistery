@@ -8,13 +8,17 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import com.mongodb.DBPort;
 import com.mongodb.Mongo;
 
 @Configuration
 @EnableMongoRepositories
 public class MongoConfig {
 
-	public @Bean MongoOperations mongoTemplate(Mongo mongo) {
+	private static final String HOST_VAR = "OPENSHIFT_MONGODB_DB_HOST";
+	private static final String PORT_VAR = "OPENSHIFT_MONGODB_DB_PORT";
+
+    public @Bean MongoOperations mongoTemplate(Mongo mongo) {
 		MongoTemplate mongoTemplate = new MongoTemplate(mongo, "wishlistery");
 		return mongoTemplate;
 	}
@@ -24,7 +28,8 @@ public class MongoConfig {
 	 */
 	public @Bean MongoFactoryBean mongo() {
 		MongoFactoryBean mongo = new MongoFactoryBean();
-		mongo.setHost("localhost");
+		mongo.setHost(System.getenv(HOST_VAR) != null ? System.getenv(HOST_VAR) : "localhost");
+		mongo.setPort(System.getenv(PORT_VAR) != null ? Integer.parseInt(System.getenv(PORT_VAR)) : DBPort.PORT);
 		return mongo;
 	}
 
