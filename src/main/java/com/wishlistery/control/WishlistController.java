@@ -11,6 +11,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.collect.ImmutableMap;
@@ -25,10 +26,10 @@ public class WishlistController {
     private ObjectMapper mapper = new ObjectMapper();
     
     @RequestMapping("/wishlist/{id}")
-    public ModelAndView getWishlist(@PathVariable String id) throws JsonGenerationException, JsonMappingException, IOException {
+    public ModelAndView getWishlist(@PathVariable String id, @RequestParam(defaultValue="false") boolean edit) throws JsonGenerationException, JsonMappingException, IOException {
         Wishlist wishlist = wishlistRepo.findOne(id);
         String json = mapper.writeValueAsString(wishlist);
         json = StringEscapeUtils.escapeEcmaScript(json);
-        return new ModelAndView("wishlist", ImmutableMap.of("wishlist", wishlist, "wishlistJson", json));
+        return new ModelAndView("wishlist", ImmutableMap.of("wishlist", wishlist, "wishlistJson", json, "edit", edit));
     }
 }

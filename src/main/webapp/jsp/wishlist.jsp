@@ -13,9 +13,6 @@
     <script src="/js/knockout.x-editable.min.js"></script>
     <script src="/rest.js"></script>
     <script type="text/javascript">
-    $(document).ready(function() {
-        $('.editable').editable();
-     });
     function toggleQuickEdit() {
     	$('#quickEditTxt').toggle();
         $('#quickEditSaveBtn').toggle();
@@ -130,15 +127,15 @@
         <hr/>
         
         <div data-bind="foreach: itemsByCategory">
-           <h1 class="ugc"><small data-bind="text: name, editable: name, visible: name != ''" class="editable"></small></h1> 
+           <h1 class="ugc"><small data-bind="text: name, visible: name != '' ${edit ? ', editable: name' : ''}"></small></h1> 
            
            <ul data-bind="foreach: itemsInCat, debug: $data" class="list-unstyled">            
                 <li class="wishlist-item">
-                    <b data-bind="text: title, editable: title" class="editable"></b>
+                    <b data-bind="text: title ${edit ? ', editable: title' : ''}"></b>
                     <br />
-                    <i data-bind="text: description, editable: description" class="editable"></i>
+                    <i data-bind="text: description ${edit ? ', editable: description' : ''}"></i>
                     <br />
-                    <a data-bind="text: link, attr: {href: link}, editable: link"></a>
+                    <a data-bind="text: link, attr: {href: link} ${edit ? ', editable: link' : ''}"></a>
                 </li>    
            </ul>
         </div>
