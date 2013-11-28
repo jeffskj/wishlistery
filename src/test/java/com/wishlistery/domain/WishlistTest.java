@@ -20,7 +20,7 @@ public class WishlistTest {
         WishlistItem item = new WishlistItem();
         wishlist.addItem(item);
         assertEquals(1, wishlist.getItems().size());
-        assertEquals(1, item.getId());
+        assertEquals(0, item.getId());
         
         wishlist.removeItem(item);
         assertEquals(0, wishlist.getItems().size());
