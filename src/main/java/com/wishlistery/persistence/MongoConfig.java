@@ -3,6 +3,7 @@ package com.wishlistery.persistence;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.mongodb.core.MongoFactoryBean;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -17,11 +18,21 @@ public class MongoConfig {
 
 	private static final String HOST_VAR = "OPENSHIFT_MONGODB_DB_HOST";
 	private static final String PORT_VAR = "OPENSHIFT_MONGODB_DB_PORT";
+	private static final String USER_VAR = "OPENSHIFT_MONGODB_DB_USERNAME";
+	private static final String PASSWORD_VAR = "OPENSHIFT_MONGODB_DB_PASSWORD";
+	
 
     public @Bean MongoOperations mongoTemplate(Mongo mongo) {
-		MongoTemplate mongoTemplate = new MongoTemplate(mongo, "wishlistery");
-		return mongoTemplate;
+		return new MongoTemplate(mongo, "wishlistery", getCredentials());
 	}
+
+    private UserCredentials getCredentials() {
+        if (System.getenv(USER_VAR) != null && System.getenv(PASSWORD_VAR) != null) {
+            return new UserCredentials(System.getenv(USER_VAR), System.getenv(PASSWORD_VAR));
+        } else {
+            return null;
+        }
+    }
 
 	/*
 	 * Factory bean that creates the Mongo instance
