@@ -1,5 +1,7 @@
 package com.wishlistery.persistence;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
@@ -15,7 +17,9 @@ import com.mongodb.Mongo;
 @Configuration
 @EnableMongoRepositories
 public class MongoConfig {
-
+    
+    private static final Logger logger = LoggerFactory.getLogger(MongoConfig.class);
+    
 	private static final String HOST_VAR = "OPENSHIFT_MONGODB_DB_HOST";
 	private static final String PORT_VAR = "OPENSHIFT_MONGODB_DB_PORT";
 	private static final String USER_VAR = "OPENSHIFT_MONGODB_DB_USERNAME";
@@ -23,13 +27,15 @@ public class MongoConfig {
 	
 
     public @Bean MongoOperations mongoTemplate(Mongo mongo) {
-		return new MongoTemplate(mongo, "wishlistery", getCredentials());
+		return new MongoTemplate(mongo, "app", getCredentials());
 	}
 
     private UserCredentials getCredentials() {
         if (System.getenv(USER_VAR) != null && System.getenv(PASSWORD_VAR) != null) {
+            logger.info("creating mongo template with user {}", System.getenv(USER_VAR));
             return new UserCredentials(System.getenv(USER_VAR), System.getenv(PASSWORD_VAR));
         } else {
+            logger.info("creating mongo template with no credentials");
             return null;
         }
     }
