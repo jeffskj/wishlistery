@@ -94,7 +94,7 @@
                     <p class="lead">${wishlist.description}</p>
                 </td>
                 <td style="vertical-align: bottom;">
-                        
+                    <c:if test="${edit}">
                       <table>
                         <tr>
                             <td>
@@ -110,6 +110,7 @@
                              </td>
                         </tr>
                       </table>
+                    </c:if>                        
                       
                 </td>
             </tr>
