@@ -14,10 +14,11 @@ leather gloves
  [Kasper Fam]
   
 clothes:
-jeans (34x32) [Skjonsby Fam,Kasper Fam]
+
 shirt
  http://www.fancystore.com/fancy-shirt.html
-
+ 
+jeans (34x32) [Skjonsby Fam,Kasper Fam]
 
 ==================================================
 
