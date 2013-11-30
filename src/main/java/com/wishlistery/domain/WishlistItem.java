@@ -69,7 +69,7 @@ public class WishlistItem implements Serializable {
     }
 
     public void setLink(final String link) {
-        this.link = link;
+        this.link = link != null && !link.startsWith("http") ? "http://" + link : link;
     }
 
     public String getCategory() {
