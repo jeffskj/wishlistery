@@ -132,9 +132,9 @@
            <ul data-bind="foreach: itemsInCat, debug: $data" class="list-unstyled">            
                 <li class="wishlist-item">
                     <b data-bind="text: title ${edit ? ', editable: title' : ''}"></b>
-                    <br />
+                    <br data-bind="visible: title != ''"/>
                     <i data-bind="text: description ${edit ? ', editable: description' : ''}"></i>
-                    <br />
+                    <br data-bind="visible: description != ''"/>
                     <a data-bind="text: link, attr: {href: link} ${edit ? ', editable: link' : ''}"></a>
                 </li>    
            </ul>
