@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.base.Strings;
@@ -135,7 +134,7 @@ public class WishlistTest {
     }
     
     @Test
-    @Ignore // ignore for right now, this works locally but not on openshift
+ // @Ignore ignore for right now, this works locally but not on openshift
     public void canParseCanonicalQuickEditText() throws IOException {
         wishlist.quickEdit(getQuickEditTestData(0));
         System.out.println(wishlist.getQuickEditText());
@@ -145,6 +144,20 @@ public class WishlistTest {
         assertTrue(wishlist.getCategories().contains("clothes"));
         
         assertEquals(5, wishlist.getItems().size());
+        
+    }
+    
+    @Test
+    public void canParseActualQuickEditText() throws IOException {
+        wishlist.quickEdit(getQuickEditTestData(4));
+        System.out.println(wishlist.getQuickEditText());
+        
+        assertEquals(3, wishlist.getCategories().size());
+        assertTrue(wishlist.getCategories().contains("Tools"));
+        assertTrue(wishlist.getCategories().contains("Games"));
+        assertTrue(wishlist.getCategories().contains("Books"));
+        
+        assertEquals(9, wishlist.getItems().size());
         
     }
     

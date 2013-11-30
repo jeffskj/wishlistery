@@ -47,4 +47,33 @@ This is a second item
    This is it's description
    http://google.com
    
-third                      
+third
+
+==================================================
+
+Jeep gas cover 
+(black but, doesn't have to be the specific linked one) 
+http://www.amazon.com/2007-2014-Jeep-Wrangler-4-Door-Filler/dp/B00407WNE0
+
+Tools:
+
+Tie down straps
+
+Bungee cords
+
+Dremel
+
+Drill bit set
+
+Games:
+
+GTA 5 (xbox 360)
+Civ 5 - Brave New World (steam) http://store.steampowered.com/app/235580/
+
+Books:
+
+The Pheonix Project http://www.amazon.com/Phoenix-Project-DevOps-Helping-Business-ebook/dp/B00AZR
+Continuous Delivery http://www.amazon.com/Continuous-Delivery-Deployment-Automation-Addison-Wesley-ebook/dp/B003YMNVC0
+
+
+                      

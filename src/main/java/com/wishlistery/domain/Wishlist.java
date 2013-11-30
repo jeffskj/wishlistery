@@ -27,9 +27,12 @@ public class Wishlist extends BaseEntity implements Serializable {
 
     private static final String DESCRIPTION_PATTERN = "\\(([^)]+)\\)";
 
-    private static final String LINK_PATTERN = "\\b((?:http|www\\.)[\\w\\p{Punct}]+)\\b";
+    private static final String LINK_PATTERN = "(?:\\s|\\b)((?:http|www\\.)[\\w\\p{Punct}]+)(?:\\s|$)";
+    
+    private static final String CATEGORY_PATTERN = "^[^:]+(?<!https?):.*";
 
     private static final long serialVersionUID = 1L;
+
     
     @Id    
     private String id;
@@ -184,7 +187,7 @@ public class Wishlist extends BaseEntity implements Serializable {
         //    parse split line as items
         // if already in a category assume line starts an item
         //   parse line for (description) http://lookslikealink.com [views] 
-        String[] lines = text.split("\n");
+        String[] lines = text.split("\\n");
         String category = null;
         Set<String> uniqueViews = new LinkedHashSet<>();
         
@@ -192,7 +195,7 @@ public class Wishlist extends BaseEntity implements Serializable {
             String line = lines[i].trim();
             if (line.trim().isEmpty()) { continue; }
             
-            if (line.contains(":") || i+1 < lines.length && lines[i+1].matches("\\w+[-*].+")) {
+            if (line.matches(CATEGORY_PATTERN) || i+1 < lines.length && lines[i+1].matches("\\w+[-*].+")) {
                 // this line has a category
                 String[] parts = line.split(":");
                 category = parts[0].trim();
