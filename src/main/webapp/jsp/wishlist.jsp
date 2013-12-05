@@ -8,7 +8,7 @@
     <link href="/css/bootstrap-editable.css" rel="stylesheet"/>
   </w:head>
   
-  <body onload="ko.applyBindings(new WishlistViewModel());">
+  <body>
     <script src="/js/bootstrap-editable.js"></script>
     <script src="/js/knockout.x-editable.min.js"></script>
     <script src="/rest.js"></script>
@@ -29,38 +29,6 @@
             console.log( valueAccessor() );
         }
     };
-
-    var wishlistId = '${wishlist.id}';
-    
-    function Category(name, itemsInCat) { this.name = name;this.itemsInCat = itemsInCat; }
-
-    function WishlistViewModel() {
-        var wishlist = $.parseJSON('${wishlistJson}');
-        self.name = wishlist.name;
-        self.description = wishlist.description;
-        self.items = ko.observableArray(wishlist.items);
-        self.categories = wishlist.categories;
-        self.views = wishlist.views;
-        
-        self.itemsByCategory = ko.computed(function() {
-            var itemsByCategory = [];
-            itemsByCategory.push(new Category('', $.grep(items(), function(it, i) { return it.category == null; })));
-
-            
-            for (c of self.categories) {
-                itemsByCategory.push(new Category(c, $.grep(items(), function(it, i) { return it.category == c; })));
-            }  
-            return itemsByCategory;  
-        });
-
-        self.quickEdit = function(preview) {
-            var txt = $('#quickEditTxt').val();
-            var wishlist = $.parseJSON(WishlistWebService.quickEditWishlistById({id: wishlistId, $entity:txt, preview: preview}));
-            self.views = wishlist.views;
-            self.categories = wishlist.categories;
-            self.items(wishlist.items); 
-        }   
-    }
     </script>
   
     <div class="navbar navbar-default navbar-fixed-top">
@@ -144,5 +112,42 @@
 
     <w:foot/>
     
+    <script type="text/javascript">
+    var wishlistId = '${wishlist.id}';
+    
+    function Category(name, itemsInCat) { this.name = name;this.itemsInCat = itemsInCat; }
+
+    function WishlistViewModel() {
+        var wishlist = $.parseJSON('${wishlistJson}');
+        self.name = wishlist.name;
+        self.description = wishlist.description;
+        self.items = ko.observableArray(wishlist.items);
+        self.categories = wishlist.categories;
+        self.views = wishlist.views;
+        
+        self.itemsByCategory = ko.computed(function() {
+            var itemsByCategory = [];
+            itemsByCategory.push(new Category('', $.grep(items(), function(it, i) { return it.category == null; })));
+
+            
+            for (var i = 0; i < categories.length; i++) {
+                var c = categories[i];
+                itemsByCategory.push(new Category(c, $.grep(items(), function(it, i) { return it.category == c; })));
+            }  
+            return itemsByCategory;  
+        });
+
+        self.quickEdit = function(preview) {
+            var txt = $('#quickEditTxt').val();
+            var wishlist = $.parseJSON(WishlistWebService.quickEditWishlistById({id: wishlistId, $entity:txt, preview: preview}));
+            self.views = wishlist.views;
+            self.categories = wishlist.categories;
+            self.items(wishlist.items); 
+        }   
+    }
+    
+    ko.applyBindings(new WishlistViewModel());
+    </script>
+        
   </body>
 </html>
